@@ -19,7 +19,7 @@ watch([currentYear, currentDept], async ([year, dept]) => {
 </script>
 
 <template>
-  <section id="members" class="py-20 px-6 lg:px-16 max-w-7xl mx-auto border-t border-white/10">
+  <section id="members" class="py-20 px-6 lg:px-16 max-w-7xl mx-auto">
     <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-6">
       <div>
         <span class="text-xs font-mono text-brandCyan tracking-widest uppercase font-bold">03 / MEMBER DIRECTORY</span>

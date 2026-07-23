@@ -5,7 +5,7 @@ const store = useAppStore();
 </script>
 
 <template>
-  <section id="achievements" class="py-20 px-6 lg:px-16 max-w-7xl mx-auto border-t border-white/10">
+  <section id="achievements" class="py-20 px-6 lg:px-16 max-w-7xl mx-auto">
     <div class="mb-16 text-center">
       <span class="text-xs font-mono text-brandCyan tracking-widest uppercase font-bold">05 / OCEAN DEPTH LOGS</span>
       <h2 class="text-3xl lg:text-5xl font-black text-white mt-1">我们的成果与深海里程碑</h2>

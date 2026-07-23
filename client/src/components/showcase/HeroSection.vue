@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import gsap from 'gsap';
 
 const emit = defineEmits<{ introDone: [] }>();
@@ -9,10 +9,20 @@ const textRef = ref<HTMLDivElement>();
 const logoWrapRef = ref<HTMLDivElement>();
 const maskRef = ref<HTMLDivElement>();
 const scrollHintRef = ref<HTMLDivElement>();
+const hintOpacity = ref(1);
+const showHint = ref(false);
+
+
+function updateHintOpacity() {
+  const lenis = (window as any).__lenis;
+  const sy = lenis ? lenis.scroll : window.scrollY;
+  hintOpacity.value = Math.max(0, Math.min(1, 1 - sy / 80));
+}
 
 onMounted(() => {
   const lenis = (window as any).__lenis;
   if (lenis) lenis.stop();
+  window.addEventListener('scroll', updateHintOpacity, { passive: true });
 
   const tl = gsap.timeline();
 
@@ -38,12 +48,17 @@ onMounted(() => {
   // 触发 header 降下和滚动提示
   .call(() => {
     emit('introDone');
+    showHint.value = true;
   })
   // 滚动提示弹出
   .fromTo(scrollHintRef.value,
-    { opacity: 0, y: 20 },
-    { opacity: 0.7, y: 0, duration: 0.6, ease: 'power3.out' },
+    { y: 20 },
+    { y: 0, duration: 0.6, ease: 'power3.out' },
   );
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', updateHintOpacity);
 });
 </script>
 
@@ -80,7 +95,7 @@ onMounted(() => {
     </div>
 
     <!-- 下滑提示 -->
-    <div ref="scrollHintRef" class="absolute bottom-12 flex flex-col items-center gap-2 opacity-0">
+    <div ref="scrollHintRef" v-show="showHint" class="absolute bottom-12 flex flex-col items-center gap-2" :style="{ opacity: hintOpacity }">
       <span class="text-xs font-mono text-gray-500 tracking-widest">下滑以开始</span>
       <svg class="w-4 h-4 text-gray-500 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />

@@ -11,7 +11,7 @@ function toggle(idx: number) {
 </script>
 
 <template>
-  <section id="qa" class="py-20 px-6 lg:px-16 max-w-7xl mx-auto border-t border-white/10">
+  <section id="qa" class="py-20 px-6 lg:px-16 max-w-7xl mx-auto">
     <div class="grid lg:grid-cols-12 gap-12 items-start">
       <div class="lg:col-span-5 space-y-4">
         <span class="text-xs font-mono text-brandCyan tracking-widest uppercase font-bold">08 / FREQUENTLY ASKED QUESTIONS</span>
@@ -37,7 +37,7 @@ function toggle(idx: number) {
                  :class="activeFaq === idx ? 'rotate-180' : ''"
                  fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
           </div>
-          <div v-show="activeFaq === idx" class="mt-3 pt-3 border-t border-white/10">
+          <div v-show="activeFaq === idx" class="mt-3 pt-3">
             <p class="text-xs text-gray-300 leading-relaxed pl-7">{{ faq.answer }}</p>
           </div>
         </div>

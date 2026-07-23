@@ -8,7 +8,7 @@ const vibeImages = [
 </script>
 
 <template>
-  <section id="vibes" class="py-20 border-t border-white/10 overflow-hidden relative">
+  <section id="vibes" class="py-20 overflow-hidden relative">
     <div class="max-w-7xl mx-auto px-6 lg:px-16 mb-8 flex justify-between items-end">
       <div>
         <span class="text-xs font-mono text-brandCyan tracking-widest uppercase font-bold">06 / STUDIO VIBES</span>

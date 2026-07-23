@@ -5,7 +5,7 @@ const store = useAppStore();
 </script>
 
 <template>
-  <section id="mentors" class="py-20 px-6 lg:px-16 max-w-7xl mx-auto border-t border-white/10">
+  <section id="mentors" class="py-20 px-6 lg:px-16 max-w-7xl mx-auto">
     <div class="mb-12">
       <span class="text-xs font-mono text-brandPurple tracking-widest uppercase font-bold">04 / ADVISORY TEAM</span>
       <h2 class="text-3xl lg:text-4xl font-black text-white mt-1">指导老师团队</h2>

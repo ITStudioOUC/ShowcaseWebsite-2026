@@ -33,7 +33,7 @@ const techStackTag: Record<string, string> = {
 </script>
 
 <template>
-  <section id="org" class="py-20 px-6 lg:px-16 max-w-7xl mx-auto border-t border-white/10">
+  <section id="org" class="py-20 px-6 lg:px-16 max-w-7xl mx-auto">
     <div class="text-center mb-16 space-y-2">
       <span class="text-xs font-mono text-brandCyan tracking-widest uppercase font-bold">02 / ORGANIZATIONAL TREE</span>
       <h2 class="text-3xl lg:text-5xl font-black text-white">组织架构拓扑</h2>
