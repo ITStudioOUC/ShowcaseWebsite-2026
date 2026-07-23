@@ -7,7 +7,6 @@ import StatusBar from '@/components/showcase/StatusBar.vue';
 import NavBar from '@/components/showcase/NavBar.vue';
 import HeroSection from '@/components/showcase/HeroSection.vue';
 import AboutSection from '@/components/showcase/AboutSection.vue';
-import OrgSection from '@/components/showcase/OrgSection.vue';
 import MembersSection from '@/components/showcase/MembersSection.vue';
 import MentorsSection from '@/components/showcase/MentorsSection.vue';
 import AchievementsSection from '@/components/showcase/AchievementsSection.vue';
@@ -55,7 +54,6 @@ async function onIntroDone() {
         <HeroSection class="h-screen" @intro-done="onIntroDone" />
       </div>
       <AboutSection />
-      <OrgSection />
       <MembersSection />
       <MentorsSection />
       <AchievementsSection />
