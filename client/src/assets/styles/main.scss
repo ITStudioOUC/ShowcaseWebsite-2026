@@ -1,0 +1,115 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// ========== 全局样式 ==========
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-thumb {
+  background: #004b87;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-track {
+  background: #030712;
+}
+
+html {
+  scroll-behavior: auto; // Lenis 接管滚动
+}
+
+body {
+  background-color: #030712;
+  color: #f3f4f6;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+// ========== 运动色彩条带 Canvas ==========
+#ribbon-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  filter: blur(3px);
+  opacity: 0.95;
+  pointer-events: none;
+}
+
+// ========== 细密点阵叠加层 ==========
+.grid-overlay {
+  position: fixed;
+  inset: 0;
+  background-size: 40px 40px;
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+// ========== Bento 卡片 ==========
+.bento-card {
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+  border-radius: 20px;
+  transform-style: preserve-3d;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+
+  &:hover {
+    border-color: rgba(0, 242, 254, 0.4);
+    box-shadow: 0 25px 50px -12px rgba(0, 242, 254, 0.2);
+  }
+}
+
+// ========== 时光漂流 River ==========
+.river-wrapper {
+  width: 100vw;
+  overflow: hidden;
+  padding: 50px 0;
+  position: relative;
+}
+
+.river-track {
+  display: flex;
+  gap: 32px;
+  width: max-content;
+  animation: riverFlow 40s linear infinite;
+
+  .river-wrapper:hover & {
+    animation-play-state: paused;
+  }
+}
+
+.river-leaf {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+  cursor: pointer;
+  border-radius: 16px;
+
+  &:hover {
+    transform: scale(1.8) translateY(-12px) rotate(-1deg);
+    z-index: 50;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 242, 254, 0.4);
+  }
+}
+
+@keyframes riverFlow {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+// ========== 脉冲虚线 ==========
+.pulse-path {
+  stroke: rgba(0, 242, 254, 0.25);
+  stroke-width: 2;
+  stroke-dasharray: 8 8;
+  animation: dashPulse 25s linear infinite;
+}
+
+@keyframes dashPulse {
+  to { stroke-dashoffset: -1000; }
+}

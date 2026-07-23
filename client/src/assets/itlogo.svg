@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_图层_2" data-name="图层 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 62 66">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#_未命名的渐变_36);
+      }
+
+      .cls-1, .cls-2, .cls-3 {
+        fill-rule: evenodd;
+      }
+
+      .cls-2 {
+        fill: url(#_未命名的渐变_23);
+      }
+
+      .cls-3 {
+        fill: url(#_未命名的渐变_31);
+      }
+    </style>
+    <linearGradient id="_未命名的渐变_31" data-name="未命名的渐变 31" x1="0" y1="28.5" x2="30" y2="28.5" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#658fd5"/>
+      <stop offset=".43" stop-color="#90bce8"/>
+      <stop offset=".99" stop-color="#bfe7fa"/>
+    </linearGradient>
+    <linearGradient id="_未命名的渐变_23" data-name="未命名的渐变 23" x1="33" y1="28" x2="62" y2="28" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8fb6e5"/>
+      <stop offset=".51" stop-color="#5a8dd3"/>
+      <stop offset=".99" stop-color="#2b67bf"/>
+    </linearGradient>
+    <linearGradient id="_未命名的渐变_36" data-name="未命名的渐变 36" x1="19.22" y1="-.02" x2="44.4" y2="53.98" gradientTransform="translate(0 65.89) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#88e1fa"/>
+      <stop offset=".69" stop-color="#4f92d6"/>
+      <stop offset="1" stop-color="#2d5eba"/>
+    </linearGradient>
+  </defs>
+  <path id="cls-1" class="cls-3" d="M0,17L30,0v39L0,57V17Z"/>
+  <path id="cls-2" class="cls-2" d="M33,39l29,17V17L33,0v39Z"/>
+  <path id="cls-3" class="cls-1" d="M18,28l28-16v37l-28,17V28Z"/>
+</svg>

@@ -1,0 +1,21 @@
+{
+  "name": "itstudio-showcase",
+  "version": "1.0.0",
+  "private": true,
+  "description": "中国海洋大学爱特工作室展示网站",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "npm -w server run dev",
+    "dev:client": "npm -w client run dev",
+    "build": "npm -w client run build",
+    "start": "npm -w server run start",
+    "seed": "npm -w server run seed"
+  },
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}
