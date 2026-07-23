@@ -18,20 +18,26 @@ const dotPositions = ref<number[]>([]); // 每个 section 对应的 %
 
 const HERO_THRESHOLD = 300;
 
-function calcPositions(sy: number) {
-  // 游标: 基于整页可滚动范围 (保证顶部=0%, 底部=100%)
-  const docH = document.body.scrollHeight - window.innerHeight;
-  if (docH > 0) {
-    cursorPos.value = Math.max(0, Math.min(100, (sy / docH) * 100));
+// 获取元素在文档中的绝对 Y 位置 (不受 CSS transform 影响)
+function getAbsoluteTop(el: HTMLElement): number {
+  let top = 0;
+  let current: HTMLElement | null = el;
+  while (current) {
+    top += current.offsetTop;
+    current = current.offsetParent as HTMLElement;
   }
+  return top;
+}
 
-  // 导航点: 基于各 section 在文档中的实际位置比例
+function calcPositions(sy: number) {
+  const docH = document.body.scrollHeight - window.innerHeight;
+
   const positions: { top: number; bottom: number }[] = [];
   for (const s of sections) {
     const el = document.getElementById(s.id);
     if (el) {
-      const rect = el.getBoundingClientRect();
-      positions.push({ top: rect.top + sy, bottom: rect.bottom + sy });
+      const top = getAbsoluteTop(el);
+      positions.push({ top, bottom: top + el.offsetHeight });
     } else {
       positions.push({ top: 0, bottom: 0 });
     }
@@ -42,9 +48,10 @@ function calcPositions(sy: number) {
   const range = endY - startY;
 
   if (range > 0) {
+    cursorPos.value = Math.max(0, Math.min(100, ((sy - startY) / range) * 100));
+    // 导航点标记 section 顶部 (与 scrollTo 目标一致)
     dotPositions.value = positions.map(p => {
-      const center = (p.top + p.bottom) / 2;
-      return Math.max(0, Math.min(100, ((center - startY) / range) * 100));
+      return Math.max(0, Math.min(100, ((p.top - startY) / range) * 100));
     });
   }
 }
@@ -58,16 +65,24 @@ function onScroll() {
   const vh = window.innerHeight;
   const midScreen = sy + vh * 0.35;
 
-  // --- 当前 section 检测 ---
+  // --- 当前 section 检测 (以 section 顶部为准) ---
   let found = -1;
   for (let i = sections.length - 1; i >= 0; i--) {
     const el = document.getElementById(sections[i].id);
     if (el) {
-      const top = el.getBoundingClientRect().top + sy;
-      if (top <= midScreen) { found = i; break; }
+      const top = getAbsoluteTop(el);
+      if (top <= sy + 60) { found = i; break; }
     }
   }
   activeIndex.value = found;
+
+  // 更新 URL hash
+  if (found >= 0 && sections[found]) {
+    const newHash = '#' + sections[found].id;
+    if (window.location.hash !== newHash) {
+      history.replaceState(null, '', newHash);
+    }
+  }
 
   // --- 连续位置 ---
   calcPositions(sy);
