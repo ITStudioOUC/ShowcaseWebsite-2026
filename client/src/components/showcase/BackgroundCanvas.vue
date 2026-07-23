@@ -11,8 +11,11 @@ const WORLD_H = 3000;
 let cameraY = 0;
 
 function updateCamera() {
+  // 使用 Lenis 的平滑滚动值 (如果有), 否则回退到原生 scrollY
+  const lenis = (window as any).__lenis;
+  const scrollY = lenis ? lenis.scroll : window.scrollY;
   const docH = document.body.scrollHeight - window.innerHeight;
-  cameraY = docH > 0 ? (window.scrollY / docH) * (WORLD_H - H) : 0;
+  cameraY = docH > 0 ? (scrollY / docH) * (WORLD_H - H) : 0;
 }
 
 // ---- 工具 ----
@@ -22,13 +25,13 @@ function rgba(c: RgbColor, a: number) { return `rgba(${c.r},${c.g},${c.b},${a.to
 // ==================== 星星 ====================
 interface Star { x: number; worldY: number; r: number; baseAlpha: number; twinkleSpeed: number; twinklePhase: number; hue: number; haloR: number; }
 const stars: Star[] = [];
-const STAR_COUNT = 400;
+const STAR_COUNT = 450;
 
 function generateStars() {
   stars.length = 0;
   for (let i = 0; i < STAR_COUNT; i++) {
-    const r = 0.3 + Math.random() * 1.8;
-    const ba = 0.12 + Math.random() * 0.88;
+    const r = 0.3 + Math.random() * 2.2;
+    const ba = 0.40 + Math.random() * 0.60; // 最低 40%
     stars.push({
       x: Math.random() * W, worldY: Math.random() * WORLD_H * 0.50, r, baseAlpha: ba,
       twinkleSpeed: 0.004 + Math.random() * 0.020, twinklePhase: Math.random() * Math.PI * 2,
@@ -68,11 +71,10 @@ interface AuroraArc {
   opacity: number; speed: number; phaseShift: number;
 }
 const auroraArcs: AuroraArc[] = [
-  { worldY: 240, amp: 20, freq: 0.001, slantAngle: 0.05, avgH: 220, hVar: 140, density: 5, width: 3, foldCount: 3, foldIntensity: 1.6, cBase: { r: 120, g: 255, b: 160 }, cMid: { r: 60, g: 220, b: 140 }, cTop: { r: 10, g: 180, b: 100 }, opacity: 0.65, speed: 0.005, phaseShift: 0 },
-  { worldY: 480, amp: 35, freq: 0.0012, slantAngle: -0.12, avgH: 280, hVar: 180, density: 4, width: 2.5, foldCount: 4, foldIntensity: 1.4, cBase: { r: 80, g: 255, b: 180 }, cMid: { r: 110, g: 100, b: 240 }, cTop: { r: 40, g: 40, b: 200 }, opacity: 0.55, speed: 0.004, phaseShift: 1.2 },
-  { worldY: 750, amp: 45, freq: 0.0015, slantAngle: 0.18, avgH: 340, hVar: 220, density: 6, width: 2, foldCount: 5, foldIntensity: 1.3, cBase: { r: 0, g: 230, b: 250 }, cMid: { r: 100, g: 160, b: 255 }, cTop: { r: 30, g: 80, b: 220 }, opacity: 0.6, speed: 0.006, phaseShift: 2.8 },
-  { worldY: 1020, amp: 30, freq: 0.0011, slantAngle: -0.22, avgH: 240, hVar: 150, density: 5, width: 2.5, foldCount: 4, foldIntensity: 1.5, cBase: { r: 240, g: 120, b: 200 }, cMid: { r: 140, g: 70, b: 220 }, cTop: { r: 80, g: 30, b: 180 }, opacity: 0.45, speed: 0.0055, phaseShift: 4.0 },
-  { worldY: 1300, amp: 35, freq: 0.0013, slantAngle: 0.08, avgH: 200, hVar: 120, density: 5, width: 2.5, foldCount: 3, foldIntensity: 1.7, cBase: { r: 100, g: 250, b: 150 }, cMid: { r: 50, g: 200, b: 130 }, cTop: { r: 0, g: 150, b: 100 }, opacity: 0.5, speed: 0.0045, phaseShift: 5.5 },
+  { worldY: 140, amp: 12, freq: 0.0007, slantAngle: 0.15, avgH: 170, hVar: 100, density: 6, width: 5, foldCount: 2, foldIntensity: 1.8, cBase: { r: 140, g: 255, b: 180 }, cMid: { r: 70, g: 230, b: 155 }, cTop: { r: 20, g: 190, b: 110 }, opacity: 0.7, speed: 0.006, phaseShift: 0 },
+  { worldY: 340, amp: 35, freq: 0.0016, slantAngle: -0.55, avgH: 220, hVar: 130, density: 5, width: 4.5, foldCount: 3, foldIntensity: 1.5, cBase: { r: 60, g: 240, b: 200 }, cMid: { r: 90, g: 80, b: 230 }, cTop: { r: 30, g: 30, b: 180 }, opacity: 0.55, speed: 0.0045, phaseShift: 2.5 },
+  { worldY: 600, amp: 50, freq: 0.0022, slantAngle: 0.65, avgH: 260, hVar: 160, density: 7, width: 4, foldCount: 4, foldIntensity: 1.3, cBase: { r: 0, g: 220, b: 255 }, cMid: { r: 120, g: 180, b: 255 }, cTop: { r: 40, g: 100, b: 230 }, opacity: 0.6, speed: 0.007, phaseShift: 5.0 },
+  { worldY: 850, amp: 40, freq: 0.0014, slantAngle: -0.50, avgH: 190, hVar: 120, density: 6, width: 4.5, foldCount: 3, foldIntensity: 1.6, cBase: { r: 250, g: 140, b: 210 }, cMid: { r: 160, g: 80, b: 230 }, cTop: { r: 90, g: 40, b: 200 }, opacity: 0.5, speed: 0.005, phaseShift: 1.8 },
 ];
 
 function drawAurora(arc: AuroraArc, offsetY: number) {
@@ -104,7 +106,9 @@ function drawAurora(arc: AuroraArc, offsetY: number) {
       foldBoost = Math.max(foldBoost, 1 + inf * arc.foldIntensity * fold.strength);
       rh *= (1 + inf * 0.4);
     }
-    const slantX = arc.slantAngle * rh, xTop = x + slantX, yTop = yBot - rh;
+    // 倾角沿 x 轴波动，避免全层平行
+    const varyAngle = arc.slantAngle + Math.sin(x * 0.005 + phase * 0.7) * 0.45 + Math.cos(x * 0.013 - phase * 0.5) * 0.35;
+    const slantX = varyAngle * rh, xTop = x + slantX, yTop = yBot - rh;
     if (yTop > H || yBot < 0) continue;
     const bw = arc.width * 0.6, tw = arc.width * 0.2;
     const baseAlpha = arc.opacity * foldBoost;
@@ -119,26 +123,14 @@ function drawAurora(arc: AuroraArc, offsetY: number) {
   }
 }
 
-// ==================== 天空渐变 ====================
-function drawSkyGradient(offsetY: number) {
-  const y0 = Math.max(0, -offsetY);
-  const y1 = Math.min(H, WORLD_H * 0.55 - offsetY);
-  if (y1 <= y0) return;
-  const grad = ctx.createLinearGradient(0, y0, 0, y1);
-  grad.addColorStop(0, '#050d1a'); grad.addColorStop(0.5, '#081828');
-  grad.addColorStop(0.85, '#0c2035'); grad.addColorStop(1, '#0e2840');
-  ctx.fillStyle = grad; ctx.fillRect(0, y0, W, y1 - y0);
-}
-
 // ==================== 稀薄云层 ====================
 function drawClouds(offsetY: number) {
   const y0 = Math.max(0, WORLD_H * 0.53 - offsetY);
   const y1 = Math.min(H, WORLD_H * 0.58 - offsetY);
   if (y1 <= y0) return;
-  for (let pass = 0; pass < 2; pass++) {
-    ctx.save(); ctx.globalAlpha = 0.12 + pass * 0.04;
-    const yC = (y0 + y1) / 2;
-    for (let x = 0; x < W; x += 4) {
+  ctx.save(); ctx.globalAlpha = 0.14;
+  const yC = (y0 + y1) / 2;
+  for (let x = 0; x < W; x += 8) {
       const n = Math.sin(x * 0.013 + time * 0.003) * Math.cos(x * 0.021 - time * 0.002) * Math.sin(x * 0.007 + time * 0.004);
       const h = n * (y1 - y0) * 0.35;
       const g = ctx.createLinearGradient(0, yC - h, 0, yC + h);
@@ -147,189 +139,107 @@ function drawClouds(offsetY: number) {
       ctx.fillStyle = g; ctx.fillRect(x, Math.max(y0, yC - h), 5, Math.min(y1, yC + h) - Math.max(y0, yC - h));
     }
     ctx.restore();
-  }
 }
 
-// ==================== 棱角冰川剪影 ====================
-interface GlacierPeak { x: number; height: number; sharpness: number; }
-let glacierPath: { x: number; y: number }[] = [];
+// ==================== 天地海一体渐变 ====================
+// 从天空顶部到世界底部的连续渐变，无明显分界线
+function drawSkyToAbyss(offsetY: number) {
+  const top = Math.max(0, -offsetY);
+  const bot = Math.min(H, WORLD_H - offsetY);
+  if (bot <= top) return;
 
-function generateGlacier() {
-  const baseY = WORLD_H * 0.60;
-  glacierPath = [];
-
-  // 生成主峰
-  const peaks: GlacierPeak[] = [];
-  const peakCount = 8 + Math.floor(W / 150);
-  for (let i = 0; i < peakCount; i++) {
-    const x = (i / (peakCount - 1)) * W + (Math.random() - 0.5) * 100;
-    const height = 30 + Math.random() * 130;
-    peaks.push({ x, height, sharpness: 0.3 + Math.random() * 1.5 });
-  }
-  peaks.sort((a, b) => a.x - b.x);
-
-  // 在主峰之间插入锯齿状的二级棱角
-  const allPoints: { x: number; y: number }[] = [];
-  for (let i = 0; i < peaks.length; i++) {
-    const p = peaks[i];
-    // 山峰顶点 - 尖锐
-    allPoints.push({ x: p.x - 3, y: baseY - p.height * 0.85 });
-    allPoints.push({ x: p.x, y: baseY - p.height }); // 峰顶
-    allPoints.push({ x: p.x + 3, y: baseY - p.height * 0.85 });
-
-    // 到下一个峰之间的锯齿状山脊
-    if (i < peaks.length - 1) {
-      const next = peaks[i + 1];
-      const segWidth = next.x - p.x;
-      const subPeaks = 2 + Math.floor(segWidth / 60);
-      for (let s = 0; s < subPeaks; s++) {
-        const t = (s + 1) / (subPeaks + 1);
-        const sx = p.x + t * segWidth + (Math.random() - 0.5) * 30;
-        const sh = baseY - (p.height * (1 - t) + next.height * t) * (0.25 + Math.random() * 0.55);
-        allPoints.push({ x: sx, y: sh });
-      }
-    }
-  }
-
-  // 按 x 排序
-  allPoints.sort((a, b) => a.x - b.x);
-  glacierPath = allPoints;
-}
-
-function drawGlacier(offsetY: number) {
-  if (glacierPath.length === 0) return;
-  const baseSY = WORLD_H * 0.60 - offsetY;
-  if (baseSY < -200 || baseSY > H + 200) return;
-
-  // 主剪影
-  ctx.beginPath();
-  ctx.moveTo(-20, H + 50);
-  for (const p of glacierPath) {
-    ctx.lineTo(p.x, p.y - offsetY);
-  }
-  ctx.lineTo(W + 20, H + 50);
-  ctx.closePath();
-
-  const grad = ctx.createLinearGradient(0, baseSY - 100, 0, baseSY + 50);
-  grad.addColorStop(0, 'rgba(230,240,252,0.75)');
-  grad.addColorStop(0.25, 'rgba(200,225,245,0.6)');
-  grad.addColorStop(0.6, 'rgba(120,175,225,0.4)');
-  grad.addColorStop(1, 'rgba(50,110,190,0.15)');
+  const grad = ctx.createLinearGradient(0, top, 0, bot);
+  // 天空深空 → 天蓝 → 海天交界(极暗蓝) → 深海蓝 → 墨蓝 → 纯黑
+  grad.addColorStop(0, '#040b18');       // 最顶 — 深空黑蓝
+  grad.addColorStop(0.18, '#081628');    // 星空区域
+  grad.addColorStop(0.38, '#0d1f38');   // 天底
+  grad.addColorStop(0.48, '#0e243e');   // 海天相接
+  grad.addColorStop(0.58, '#0a1d35');   // 入海
+  grad.addColorStop(0.70, '#061528');   // 浅海
+  grad.addColorStop(0.84, '#020b18');   // 深海
+  grad.addColorStop(1, '#000000');       // 深渊纯黑
   ctx.fillStyle = grad;
-  ctx.fill();
-
-  // 冰川表面的棱角纹理线
-  ctx.strokeStyle = 'rgba(180,210,240,0.15)';
-  ctx.lineWidth = 0.6;
-  for (let i = 0; i < glacierPath.length; i += 3) {
-    const p = glacierPath[i];
-    const sy = p.y - offsetY;
-    if (sy < 0 || sy > H) continue;
-    ctx.beginPath();
-    ctx.moveTo(p.x, sy);
-    // 画短斜线模拟冰川裂隙
-    const angle = (Math.sin(p.x * 0.03) * 0.3 + 0.5) * Math.PI;
-    ctx.lineTo(p.x + Math.cos(angle) * 18, sy + Math.sin(angle) * 10);
-    ctx.stroke();
-  }
+  ctx.fillRect(0, top, W, bot - top);
 }
 
-// ==================== 海面碎冰 (预生成, 不规则多边形) ====================
-interface IceFloe {
-  // 多边形顶点 (相对于中心)
-  verts: { x: number; y: number }[];
-  worldX: number; worldY: number;
-  rotation: number;
-  color: string;
-}
-let iceFloes: IceFloe[] = [];
-
-function generateIceFloes() {
-  iceFloes = [];
-  const iceTop = WORLD_H * 0.62;
-  const iceBot = WORLD_H * 0.66;
-  for (let i = 0; i < 50; i++) {
-    const cx = Math.random() * W;
-    const wy = iceTop + Math.random() * (iceBot - iceTop);
-    // 生成不规则多边形 (4-8边形)
-    const numVerts = 4 + Math.floor(Math.random() * 5);
-    const baseR = 12 + Math.random() * 40; // 大块浮冰
-    const verts: { x: number; y: number }[] = [];
-    for (let v = 0; v < numVerts; v++) {
-      const angle = (v / numVerts) * Math.PI * 2 + (Math.random() - 0.5) * 0.6;
-      const r = baseR * (0.4 + Math.random() * 0.6) * (Math.random() > 0.3 ? 1 : 0.35); // 偶尔缺一角
-      verts.push({ x: Math.cos(angle) * r, y: Math.sin(angle) * r * 0.35 }); // 压扁
-    }
-    const alpha = 0.2 + Math.random() * 0.4;
-    const blue = 200 + Math.floor(Math.random() * 55);
-    iceFloes.push({ verts, worldX: cx, worldY: wy, rotation: Math.random() * Math.PI, color: `rgba(${blue},${blue + 20},${blue + 40},${alpha.toFixed(2)})` });
-  }
-}
-
-function drawIceFloes(offsetY: number) {
-  for (const floe of iceFloes) {
-    const sy = floe.worldY - offsetY;
-    if (sy < -30 || sy > H + 30) continue;
-    // 极缓慢漂移
-    const dx = Math.sin(floe.worldY * 0.01 + time * 0.0008) * 12;
-    ctx.save();
-    ctx.translate(floe.worldX + dx, sy);
-    ctx.rotate(floe.rotation + Math.sin(time * 0.0005 + floe.worldX * 0.03) * 0.04);
-    ctx.fillStyle = floe.color;
-    ctx.beginPath();
-    ctx.moveTo(floe.verts[0].x, floe.verts[0].y);
-    for (let v = 1; v < floe.verts.length; v++) {
-      ctx.lineTo(floe.verts[v].x, floe.verts[v].y);
-    }
-    ctx.closePath();
-    ctx.fill();
-    // 冰面高光边
-    ctx.strokeStyle = 'rgba(220,235,255,0.3)';
-    ctx.lineWidth = 0.5;
-    ctx.stroke();
-    ctx.restore();
-  }
-}
-
-// ==================== 海面 ====================
-function drawOceanSurface(offsetY: number) {
-  const y0 = Math.max(0, WORLD_H * 0.64 - offsetY);
-  const y1 = Math.min(H, WORLD_H * 0.70 - offsetY);
+// ==================== 海面微弱波纹 ====================
+function drawRipples(offsetY: number) {
+  const surfY = WORLD_H * 0.50 - offsetY;
+  const y0 = Math.max(0, surfY - 10);
+  const y1 = Math.min(H, surfY + 50);
   if (y1 <= y0) return;
-  const grad = ctx.createLinearGradient(0, y0, 0, y1);
-  grad.addColorStop(0, 'rgba(20,60,110,0.7)');
-  grad.addColorStop(0.5, 'rgba(10,40,90,0.8)');
-  grad.addColorStop(1, 'rgba(5,20,60,0.85)');
-  ctx.fillStyle = grad; ctx.fillRect(0, y0, W, y1 - y0);
-  // 波纹
-  ctx.strokeStyle = 'rgba(100,160,220,0.12)'; ctx.lineWidth = 0.5;
-  for (let y = y0; y < y1; y += 8) {
+
+  ctx.strokeStyle = 'rgba(100,160,220,0.06)'; ctx.lineWidth = 0.5;
+  for (let y = y0; y < y1; y += 12) {
     ctx.beginPath();
     for (let x = 0; x < W; x += 4) {
-      const wy = y + Math.sin(x * 0.02 + time * 0.008 + y * 0.05) * 2.5;
+      const wy = y + Math.sin(x * 0.018 + time * 0.006 + y * 0.04) * 2;
       x === 0 ? ctx.moveTo(x, wy) : ctx.lineTo(x, wy);
     }
     ctx.stroke();
   }
 }
 
-// ==================== 深海 ====================
-function drawDeepOcean(offsetY: number) {
-  const y0 = Math.max(0, WORLD_H * 0.68 - offsetY);
-  const y1 = Math.min(H, WORLD_H - offsetY);
+// ==================== 水下世界 ====================
+function drawUnderwater(offsetY: number) {
+  const top = WORLD_H * 0.52 - offsetY;
+  const bot = WORLD_H - offsetY;
+  if (bot <= 0 || top >= H) return;
+  const y0 = Math.max(0, top);
+  const y1 = Math.min(H, bot);
   if (y1 <= y0) return;
-  const grad = ctx.createLinearGradient(0, y0, 0, y1);
-  grad.addColorStop(0, 'rgba(5,20,60,0.9)');
-  grad.addColorStop(0.25, 'rgba(3,12,40,0.95)');
-  grad.addColorStop(0.55, 'rgba(1,6,20,0.98)');
-  grad.addColorStop(1, '#000000');
-  ctx.fillStyle = grad; ctx.fillRect(0, y0, W, y1 - y0);
-  // 海洋微粒
-  for (let i = 0; i < 40; i++) {
-    const sx = (i * W / 37 + Math.sin(i * 5.1 + time * 0.001) * W * 0.3) % W;
-    const sy = y0 + ((i * 113 + time * 0.12) % (y1 - y0));
-    ctx.fillStyle = `rgba(180,210,240,${0.03 + 0.05 * Math.sin(time * 0.008 + i * 1.7)})`;
-    ctx.beginPath(); ctx.arc(sx, sy, 0.7, 0, Math.PI * 2); ctx.fill();
+  const range = y1 - y0;
+
+  // --- 水下光柱 (god rays) ---
+  ctx.save();
+  ctx.globalCompositeOperation = 'lighter';
+  for (let r = 0; r < 5; r++) {
+    const rx = (r / 5) * W + Math.sin(time * 0.003 + r * 2.1) * W * 0.2;
+    const rw = 15 + Math.sin(r * 3.7) * 8;
+    const gradX = ctx.createLinearGradient(rx - rw, 0, rx + rw, 0);
+    gradX.addColorStop(0, 'rgba(120,180,220,0)');
+    gradX.addColorStop(0.5, 'rgba(120,180,220,0.04)');
+    gradX.addColorStop(1, 'rgba(120,180,220,0)');
+    ctx.fillStyle = gradX;
+    ctx.fillRect(rx - rw, y0, rw * 2, range);
+  }
+  ctx.restore();
+
+  // --- 浮游微粒 (多尺寸) ---
+  for (let i = 0; i < 60; i++) {
+    const sx = (i * W / 57 + Math.sin(i * 5.1 + time * 0.0008) * W * 0.3) % W;
+    const sy = y0 + ((i * 73 + time * 0.04) % range);
+    if (sy > y1) continue;
+    const depthFrac = (sy - y0) / range;
+    const size = 0.3 + (i % 3) * 0.5 + Math.sin(i * 3.7) * 0.2; // 0.3~1.8px
+    const alpha = (0.015 + 0.04 * (1 - depthFrac)) * (0.5 + 0.5 * Math.sin(time * 0.005 + i * 1.7));
+    ctx.fillStyle = `rgba(160,200,230,${alpha.toFixed(3)})`;
+    ctx.beginPath(); ctx.arc(sx, sy, size, 0, Math.PI * 2); ctx.fill();
+  }
+
+  // --- 水母/磷光粒子 (稀疏, 微亮) ---
+  for (let i = 0; i < 10; i++) {
+    const sx = (i * W / 9 + Math.sin(time * 0.002 + i) * W * 0.4) % W;
+    const sy = y0 + ((i * 137 + time * 0.025) % range);
+    if (sy > y1) continue;
+    const pulse = 0.5 + 0.5 * Math.sin(time * 0.015 + i * 2.3);
+    const alpha = 0.03 + 0.06 * pulse;
+    const g = ctx.createRadialGradient(sx, sy, 0, sx, sy, 4);
+    g.addColorStop(0, `rgba(180,230,255,${alpha.toFixed(3)})`);
+    g.addColorStop(1, 'rgba(180,230,255,0)');
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(sx, sy, 4, 0, Math.PI * 2); ctx.fill();
+  }
+
+  // --- 暗流波纹 (宽间距) ---
+  ctx.strokeStyle = 'rgba(100,160,220,0.03)'; ctx.lineWidth = 0.6;
+  for (let y = y0 + 30; y < y1 - 30; y += 60) {
+    ctx.beginPath();
+    for (let x = 0; x < W; x += 6) {
+      const wy = y + Math.sin(x * 0.008 + time * 0.003 + y * 0.02) * 8;
+      x === 0 ? ctx.moveTo(x, wy) : ctx.lineTo(x, wy);
+    }
+    ctx.stroke();
   }
 }
 
@@ -342,33 +252,39 @@ function render() {
   const viewTop = cameraY;
   const viewBot = cameraY + H;
 
-  // 天空
-  if (viewTop < WORLD_H * 0.55 && viewBot > 0) drawSkyGradient(cameraY);
+  // 天空 + 渐变 → 海洋 → 深渊 (一体渐变)
+  drawSkyToAbyss(cameraY);
+
+  // 天空区域整体淡出：viewTop 超过 SKY_FADE_START 时极光和星星开始淡出
+  const SKY_FADE_START = WORLD_H * 0.35;
+  const SKY_FADE_END   = WORLD_H * 0.52;
+  const skyFade = 1 - Math.max(0, Math.min(1, (viewTop - SKY_FADE_START) / (SKY_FADE_END - SKY_FADE_START)));
 
   // 极光
-  if (viewTop < WORLD_H * 0.53) {
+  if (skyFade > 0.01) {
+    ctx.save();
     ctx.globalCompositeOperation = 'lighter';
+    ctx.globalAlpha = skyFade;
     auroraArcs.forEach(a => {
       if (a.worldY + a.amp > viewTop && a.worldY - a.avgH - a.hVar < viewBot) drawAurora(a, cameraY);
     });
-    ctx.globalCompositeOperation = 'source-over';
+    ctx.restore();
   }
 
   // 星星
-  if (viewTop < WORLD_H * 0.52) {
+  if (skyFade > 0.01) {
     stars.forEach(s => {
       if (s.worldY < viewTop - 20 || s.worldY > viewBot + 20) return;
-      let fade = 1;
-      if (s.worldY > WORLD_H * 0.45) fade = Math.max(0, 1 - (s.worldY - WORLD_H * 0.45) / (WORLD_H * 0.07));
-      if (fade > 0) drawStar(s, s.worldY - cameraY, fade);
+      // 地平线淡出 + 全局天空淡出
+      let fade = skyFade;
+      if (s.worldY > WORLD_H * 0.43) fade *= Math.max(0, 1 - (s.worldY - WORLD_H * 0.43) / (WORLD_H * 0.07));
+      if (fade > 0.005) drawStar(s, s.worldY - cameraY, fade);
     });
   }
 
   drawClouds(cameraY);
-  drawGlacier(cameraY);
-  drawIceFloes(cameraY);
-  drawOceanSurface(cameraY);
-  drawDeepOcean(cameraY);
+  drawRipples(cameraY);
+  drawUnderwater(cameraY);
 
   const worldEnd = WORLD_H - cameraY;
   if (worldEnd < H) { ctx.fillStyle = '#000000'; ctx.fillRect(0, Math.max(0, worldEnd), W, H); }
@@ -380,8 +296,6 @@ function onResize() {
   W = canvasRef.value.width = window.innerWidth;
   H = canvasRef.value.height = window.innerHeight;
   generateStars();
-  generateGlacier();
-  generateIceFloes();
 }
 
 onMounted(() => {
@@ -389,13 +303,11 @@ onMounted(() => {
   ctx = canvasRef.value.getContext('2d')!;
   onResize();
   window.addEventListener('resize', onResize);
-  window.addEventListener('scroll', updateCamera, { passive: true });
   animFrameId = requestAnimationFrame(render);
 });
 
 onUnmounted(() => {
   window.removeEventListener('resize', onResize);
-  window.removeEventListener('scroll', updateCamera);
   cancelAnimationFrame(animFrameId);
 });
 </script>
