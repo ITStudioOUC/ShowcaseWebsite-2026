@@ -47,10 +47,17 @@ const lightbox = ref<{ img: VibeImage } | null>(null);
             class="gallery-item group cursor-pointer flex-shrink-0"
             @click="lightbox = { img }"
           >
-            <img :src="img.url" :alt="img.title"
-                 class="w-auto h-40 lg:h-52 object-cover rounded-lg border border-white/5 group-hover:border-brandCyan/30 transition-all duration-300"
-                 loading="lazy"
-            />
+            <div class="relative h-40 lg:h-52 rounded-lg overflow-hidden bg-white/[0.03]" :style="{ aspectRatio: img.width + '/' + img.height }">
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="w-5 h-5 border-2 border-brandCyan/20 border-t-brandCyan/60 rounded-full animate-spin"></div>
+              </div>
+              <img :src="img.url" :alt="img.title"
+                   class="relative w-full h-full object-cover rounded-lg border border-white/5 group-hover:border-brandCyan/30 transition-all duration-300"
+                   loading="lazy"
+                   @load="($event.target as HTMLElement).style.opacity='1'"
+                   style="opacity:0"
+              />
+            </div>
             <div class="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
                  style="background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 50%);" />
             <span class="absolute bottom-2 left-3 text-xs font-bold text-white opacity-0 group-hover:opacity-100 transition-opacity">{{ img.title }}</span>
