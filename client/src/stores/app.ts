@@ -23,6 +23,7 @@ export const useAppStore = defineStore('app', () => {
   const activities = ref<Activity[]>([]);
   const orgLeaders = ref<OrgLeader[]>([]);
   const mentors = ref<Mentor[]>([]);
+  const vibeImages = ref<any[]>([]);
 
   const loading = ref(false);
 
@@ -90,6 +91,12 @@ export const useAppStore = defineStore('app', () => {
     }
   }
 
+  async function fetchVibeImages() {
+    try {
+      vibeImages.value = await api.get<any[]>('/vibe-images');
+    } catch (e) { console.error('获取风情图片失败:', e); }
+  }
+
   async function fetchAllData() {
     await Promise.all([
       fetchStats(),
@@ -99,11 +106,12 @@ export const useAppStore = defineStore('app', () => {
       fetchActivities(),
       fetchOrgLeaders(),
       fetchMentors(),
+      fetchVibeImages(),
     ]);
   }
 
   return {
-    stats, members, achievements, faqs, activities, orgLeaders, mentors, loading,
+    stats, members, achievements, faqs, activities, orgLeaders, mentors, vibeImages, loading,
     fetchStats, fetchMembers, fetchAchievements, fetchFaqs, fetchActivities,
     fetchOrgLeaders, fetchMentors, fetchAllData,
   };

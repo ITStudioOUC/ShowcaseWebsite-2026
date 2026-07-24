@@ -214,6 +214,16 @@ async function initDB() {
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );
 
+    CREATE TABLE IF NOT EXISTS vibe_images (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      url TEXT NOT NULL,
+      title TEXT DEFAULT '',
+      width INTEGER DEFAULT 800,
+      height INTEGER DEFAULT 600,
+      sort_order INTEGER DEFAULT 0,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+
     CREATE TABLE IF NOT EXISTS mentors (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       title TEXT DEFAULT '',

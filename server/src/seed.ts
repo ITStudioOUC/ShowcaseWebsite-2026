@@ -134,6 +134,25 @@ import db, { initDB } from './db.js';
   }
   console.log('[Seed] ✓ 社团活动数据');
 
+  // 9. 风情图片
+  db.prepare('DELETE FROM vibe_images').run();
+  const vibeData = [
+    ['https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80', '团队协作', 800, 533, 0],
+    ['https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80', '极客之夜', 800, 533, 1],
+    ['https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=800&q=80', '创意工坊', 800, 533, 2],
+    ['https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80', '黑客马拉松', 800, 533, 3],
+    ['https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&q=80', '项目研讨', 600, 400, 4],
+    ['https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&q=80', '技术分享', 600, 400, 5],
+    ['https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=700&q=80', '迎新活动', 700, 467, 6],
+    ['https://images.unsplash.com/photo-1543269865-cbf427effbad?w=600&q=80', '团队建设', 600, 400, 7],
+    ['https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=700&q=80', '工作室日常', 700, 467, 8],
+    ['https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80', '年度总结', 800, 533, 9],
+  ];
+  for (const row of vibeData) {
+    db.prepare('INSERT INTO vibe_images (url, title, width, height, sort_order) VALUES (?, ?, ?, ?, ?)').run(...row);
+  }
+  console.log('[Seed] ✓ 风情图片');
+
   console.log('[Seed] 数据填充完成！');
   console.log('[Seed] 管理员账号: admin / admin123');
 })();
