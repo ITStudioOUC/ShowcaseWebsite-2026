@@ -92,6 +92,7 @@ async function remove(id: number) {
               <input v-model="form.office" placeholder="办公室" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-brandCyan focus:outline-none">
             </div>
             <input v-model="form.avatar" placeholder="头像 URL" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-brandCyan focus:outline-none">
+            <input v-model="form.link" placeholder="跳转链接 (可选)" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-brandCyan focus:outline-none">
             <div class="flex justify-end gap-3 pt-2">
               <button @click="showForm = false" class="px-4 py-2 rounded-lg bg-white/10 text-white text-xs">取消</button>
               <button @click="save" class="px-4 py-2 rounded-lg bg-brandCyan text-black text-xs font-bold">保存</button>

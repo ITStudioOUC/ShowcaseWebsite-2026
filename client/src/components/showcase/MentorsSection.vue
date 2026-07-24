@@ -13,7 +13,7 @@ const store = useAppStore();
 
     <div class="grid md:grid-cols-3 gap-6">
       <div v-for="mentor in store.mentors" :key="mentor.id"
-           class="flex items-start gap-4 p-5 border-t transition-all relative overflow-hidden rounded-md"
+           class="flex items-start gap-4 p-5 border-t transition-all relative overflow-hidden rounded-md cursor-pointer hover:scale-[1.02] duration-300"
            :class="{
              'border-brandPurple/20 hover:border-brandPurple/40': mentor.title.includes('团委'),
              'border-brandCyan/20 hover:border-brandCyan/40': mentor.title.includes('技术'),
@@ -25,6 +25,7 @@ const store = useAppStore();
                         mentor.title.includes('技术') ? '3px 3px 18px rgba(136,225,250,0.45), 0 0 30px rgba(136,225,250,0.15)' :
                         '3px 3px 18px rgba(125,211,252,0.45), 0 0 30px rgba(125,211,252,0.15)',
            }"
+           @click="mentor.link && window.open(mentor.link, '_blank')"
       >
         <img :src="mentor.avatar" class="w-18 h-24 rounded object-cover flex-shrink-0" style="width:88px;height:118px" />
         <div class="flex-1 min-w-0">

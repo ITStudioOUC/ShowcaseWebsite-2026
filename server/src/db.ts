@@ -246,6 +246,7 @@ async function initDB() {
       email TEXT DEFAULT '',
       office TEXT DEFAULT '',
       academic_title TEXT DEFAULT '',
+      link TEXT DEFAULT '',
       sort_order INTEGER DEFAULT 0,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );

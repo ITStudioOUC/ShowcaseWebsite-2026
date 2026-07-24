@@ -67,6 +67,7 @@ export interface Mentor {
   email: string;
   office: string;
   academic_title: string;
+  link: string;
   sort_order: number;
 }
 
