@@ -88,12 +88,12 @@ import db, { initDB } from './db.js';
   // 5. 成果
   db.prepare('DELETE FROM achievements').run();
   const achievementsData = [
-    ['2026', '100m', 'MikuDB 高性能文档数据库开源发布', '基于 Rust 语言构建的高性能文档数据库项目，获得 GitHub 开发者社区高星关注与 Rust 社区认可。', '["Rust","Database","OpenSource"]', 'https://github.com/ITStudioOUC', 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80', 0],
-    ['2025', '350m', 'OUC 生存指北 Wiki 知识库上线', '由爱特团队精心整理与编写的开源海大生存指南，帮助数万名海大学子解决日常选课、选导师与生活疑难。', '["VitePress","Markdown","Wiki"]', 'https://wiki.itstudio.club/', 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80', 1],
-    ['2024', '800m', '全国 OpenHarmony 极客开发大赛金奖', '基于开源鸿蒙系统的海况数据实时感知终端，斩获全国总决赛一等奖，推动软硬件产学研结合。', '["HarmonyOS","C/C++","IoT"]', 'https://www.ccf.org.cn/', 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80', 2],
+    ['2026', 'MikuDB 高性能文档数据库开源发布', '基于 Rust 语言构建的高性能文档数据库项目，获得 GitHub 开发者社区高星关注与 Rust 社区认可。', '["Rust","Database","OpenSource"]', 'https://github.com/ITStudioOUC', '查看仓库', 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80', 0],
+    ['2025', 'OUC 生存指北 Wiki 知识库上线', '由爱特团队精心整理与编写的开源海大生存指南，帮助数万名海大学子解决日常选课、选导师与生活疑难。', '["VitePress","Markdown","Wiki"]', 'https://wiki.itstudio.club/', '访问 Wiki', 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80', 1],
+    ['2024', '全国 OpenHarmony 极客开发大赛金奖', '基于开源鸿蒙系统的海况数据实时感知终端，斩获全国总决赛一等奖，推动软硬件产学研结合。', '["HarmonyOS","C/C++","IoT"]', 'https://www.ccf.org.cn/', '了解详情', 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80', 2],
   ];
   for (const row of achievementsData) {
-    db.prepare('INSERT INTO achievements (year, depth, title, "desc", tags, link, img, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?)').run(...row);
+    db.prepare('INSERT INTO achievements (year, title, "desc", tags, link, link_text, img, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?)').run(...row);
   }
   console.log('[Seed] ✓ 成果数据');
 

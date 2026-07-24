@@ -17,15 +17,15 @@ router.get('/', (_req: Request, res: Response) => {
 
 // POST /api/achievements
 router.post('/', authMiddleware, (req: Request, res: Response) => {
-  const { year, depth, title, desc, tags, link, img, sort_order } = req.body;
-  if (!year || !depth || !title) {
-    res.status(400).json({ error: 'year, depth, title 为必填字段' });
+  const { year, title, desc, tags, link, img, sort_order } = req.body;
+  if (!year || !title) {
+    res.status(400).json({ error: 'year, title 为必填字段' });
     return;
   }
   const stmt = db.prepare(
-    'INSERT INTO achievements (year, depth, title, "desc", tags, link, img, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+    'INSERT INTO achievements (year, title, "desc", tags, link, link_text, img, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
   );
-  const result = stmt.run(year, depth, title, desc || '', JSON.stringify(tags || []), link || '', img || '', sort_order || 0);
+  const result = stmt.run(year, title, desc || '', JSON.stringify(tags || []), link || '', req.body.link_text || '', img || '', sort_order || 0);
   res.status(201).json({ id: result.lastInsertRowid });
 });
 
@@ -37,15 +37,15 @@ router.put('/:id', authMiddleware, (req: Request, res: Response) => {
   if (!existing) { res.status(404).json({ error: '成果不存在' }); return; }
 
   const stmt = db.prepare(
-    'UPDATE achievements SET year=?, depth=?, title=?, "desc"=?, tags=?, link=?, img=?, sort_order=? WHERE id=?'
+    'UPDATE achievements SET year=?, title=?, "desc"=?, tags=?, link=?, link_text=?, img=?, sort_order=? WHERE id=?'
   );
   stmt.run(
     year ?? (existing as any).year,
-    depth ?? (existing as any).depth,
     title ?? (existing as any).title,
     desc ?? (existing as any).desc,
     tags ? JSON.stringify(tags) : (existing as any).tags,
     link ?? (existing as any).link,
+    req.body.link_text ?? (existing as any).link_text,
     img ?? (existing as any).img,
     sort_order ?? (existing as any).sort_order,
     id

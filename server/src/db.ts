@@ -158,11 +158,11 @@ async function initDB() {
     CREATE TABLE IF NOT EXISTS achievements (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       year TEXT NOT NULL,
-      depth TEXT NOT NULL,
       title TEXT NOT NULL,
       "desc" TEXT DEFAULT '',
       tags TEXT DEFAULT '[]',
       link TEXT DEFAULT '',
+      link_text TEXT DEFAULT '',
       img TEXT DEFAULT '',
       sort_order INTEGER DEFAULT 0,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP

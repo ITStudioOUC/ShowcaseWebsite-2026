@@ -16,11 +16,11 @@ export interface Member {
 export interface Achievement {
   id: number;
   year: string;
-  depth: string;
   title: string;
   desc: string;
   tags: string[];
   link: string;
+  link_text: string;
   img: string;
   sort_order: number;
 }
