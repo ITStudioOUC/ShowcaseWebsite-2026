@@ -48,12 +48,6 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
-      path: '/admin/articles',
-      name: 'admin-articles',
-      component: () => import('@/components/admin/ArticlesManager.vue'),
-      meta: { requiresAuth: true },
-    },
-    {
       path: '/admin/friend-links',
       name: 'admin-friend-links',
       component: () => import('@/components/admin/FriendLinksManager.vue'),
