@@ -3,7 +3,7 @@ import { onMounted, ref, computed } from 'vue';
 import AdminLayout from './AdminLayout.vue';
 import { useAppStore } from '@/stores/app';
 import { useApi } from '@/composables/useApi';
-import type { Achievement } from '@/types';
+import UploadInput from '@/components/shared/UploadInput.vue'; import type { Achievement } from '@/types';
 
 const store = useAppStore();
 const api = useApi();
@@ -100,7 +100,7 @@ async function remove(id: number) {
               <input v-model="form.link" placeholder="链接 URL" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-brandCyan focus:outline-none">
               <input v-model="form.link_text" placeholder="链接文字 (如: 访问详情)" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-brandCyan focus:outline-none">
             </div>
-            <input v-model="form.img" placeholder="图片 URL" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-brandCyan focus:outline-none">
+            <UploadInput v-model="form.img" />
             <div class="flex justify-end gap-3 pt-2">
               <button @click="showForm = false" class="px-4 py-2 rounded-lg bg-white/10 text-white text-xs">取消</button>
               <button @click="save" class="px-4 py-2 rounded-lg bg-brandCyan text-black text-xs font-bold">保存</button>

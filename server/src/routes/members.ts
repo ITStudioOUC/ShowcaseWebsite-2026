@@ -2,6 +2,14 @@ import { Router, Request, Response } from 'express';
 import db from '../db.js';
 import { authMiddleware } from '../middleware/auth.js';
 import XLSX from 'xlsx';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import JSZip from 'jszip';
+import multer from 'multer';
+import unzipper from 'unzipper';
+const upload = multer({ storage: multer.memoryStorage() });
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const router = Router();
 
@@ -51,7 +59,7 @@ router.get('/depts', (_req: Request, res: Response) => {
 });
 
 // GET /api/members/export?year=
-router.get('/export', authMiddleware, (_req: Request, res: Response) => {
+router.get('/export', authMiddleware, async (_req: Request, res: Response) => {
   const year = _req.query.year as string;
   let sql = 'SELECT name, dept, title, dest, avatar FROM members';
   const params: any[] = [];
@@ -59,41 +67,82 @@ router.get('/export', authMiddleware, (_req: Request, res: Response) => {
   sql += ' ORDER BY sort_order, id';
   const rows = db.prepare(sql).all(...params) as any[];
 
-  const data = rows.map((r: any) => ({
-    '姓名': r.name, '部门': r.dept, '职务': r.title, '座右铭': r.dest, '头像': r.avatar,
-  }));
+  const data = rows.map((r: any) => {
+    let avatar = r.avatar || '';
+    // 本地上传文件: 仅保留文件名
+    if (avatar.startsWith('/uploads/')) {
+      avatar = path.basename(avatar);
+    }
+    return { '姓名': r.name, '部门': r.dept, '职务': r.title, '座右铭': r.dest, '头像': avatar };
+  });
 
   const ws = XLSX.utils.json_to_sheet(data, { header: FIELDS });
   ws['!cols'] = FIELDS.map(() => ({ wch: 25 }));
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, '成员');
-  const buf = XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' });
+  const xlsxBuf = XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' });
 
-  res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-  res.setHeader('Content-Disposition', `attachment; filename=members_${year || 'all'}.xlsx`);
-  res.send(Buffer.from(buf));
+  // 收集需要打包的本地照片
+  const photoFiles: { name: string; path: string }[] = [];
+  rows.forEach((r: any) => {
+    if (r.avatar && r.avatar.startsWith('/uploads/')) {
+      const filePath = path.join(__dirname, '..', '..', r.avatar);
+      if (fs.existsSync(filePath) && !photoFiles.find(p => p.name === path.basename(r.avatar))) {
+        photoFiles.push({ name: path.basename(r.avatar), path: filePath });
+      }
+    }
+  });
+
+  // 创建 zip
+  const zip = new JSZip();
+  zip.file(`members_${year || 'all'}.xlsx`, Buffer.from(xlsxBuf));
+  const photosFolder = zip.folder('photos')!;
+  photoFiles.forEach(p => photosFolder.file(p.name, fs.readFileSync(p.path)));
+  const zipBuf = await zip.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE' });
+
+  res.setHeader('Content-Type', 'application/zip');
+  res.setHeader('Content-Disposition', `attachment; filename=members_${year || 'all'}.zip`);
+  res.send(zipBuf);
 });
 
-// POST /api/members/import
-router.post('/import', authMiddleware, (req: Request, res: Response) => {
-  const { year, data } = req.body;
-  if (!year) { res.status(400).json({ error: 'year 为必填字段' }); return; }
-  if (!data || !Array.isArray(data)) { res.status(400).json({ error: 'data 数组为必填' }); return; }
 
+// POST /api/members/import
+router.post('/import', authMiddleware, upload.single('file'), async (req: Request, res: Response) => {
+  const year = req.body.year;
+  if (!year) { res.status(400).json({ error: 'year 为必填字段' }); return; }
+
+  let data: any[] = [];
+
+  if (req.file) {
+    const directory = await unzipper.Open.buffer(req.file.buffer);
+    const uploadDir = path.join(__dirname, '..', '..', 'uploads');
+    if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+    for (const f of directory.files) {
+      if (f.type === 'File' && f.path.startsWith('photos/')) {
+        const content = await f.buffer();
+        fs.writeFileSync(path.join(uploadDir, path.basename(f.path)), content);
+      }
+    }
+    const xf = directory.files.find(f => f.path.endsWith('.xlsx'));
+    if (xf) { const xb = await xf.buffer(); const wb = XLSX.read(xb); data = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]); }
+  } else {
+    data = req.body.data || [];
+  }
+
+  if (!data.length) { res.status(400).json({ error: '无数据' }); return; }
   let imported = 0;
   const stmt = db.prepare('INSERT INTO members (year, name, dept, title, dest, avatar) VALUES (?, ?, ?, ?, ?, ?)');
-
   for (const row of data) {
     const name = row['姓名'] || row['name'] || '';
     const dept = row['部门'] || row['dept'] || '';
     const title = row['职务'] || row['title'] || '';
     const dest = row['座右铭'] || row['dest'] || '';
-    const avatar = row['头像'] || row['avatar'] || '';
+    let avatar = row['头像'] || row['avatar'] || '';
+    if (avatar && !avatar.startsWith('http') && !avatar.startsWith('/uploads/')) avatar = '/uploads/' + avatar;
     if (!name) continue;
     stmt.run(year, name, dept, title, dest, avatar);
     imported++;
   }
-
   res.json({ imported });
 });
 

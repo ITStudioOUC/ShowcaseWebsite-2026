@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue';
 import AdminLayout from './AdminLayout.vue';
 import { useApi } from '@/composables/useApi';
-import type { Mentor } from '@/types';
+import UploadInput from '@/components/shared/UploadInput.vue'; import type { Mentor } from '@/types';
 
 const api = useApi();
 const mentors = ref<Mentor[]>([]);
@@ -91,7 +91,7 @@ async function remove(id: number) {
               <input v-model="form.email" placeholder="邮箱" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-brandCyan focus:outline-none">
               <input v-model="form.office" placeholder="办公室" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-brandCyan focus:outline-none">
             </div>
-            <input v-model="form.avatar" placeholder="头像 URL" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-brandCyan focus:outline-none">
+            <UploadInput v-model="form.avatar" />
             <input v-model="form.link" placeholder="跳转链接 (可选)" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-brandCyan focus:outline-none">
             <div class="flex justify-end gap-3 pt-2">
               <button @click="showForm = false" class="px-4 py-2 rounded-lg bg-white/10 text-white text-xs">取消</button>

@@ -3,7 +3,7 @@ import { onMounted, ref } from 'vue';
 import AdminLayout from './AdminLayout.vue';
 import { useApi } from '@/composables/useApi';
 
-interface VibeImage { id: number; url: string; title: string; width: number; height: number; sort_order: number; }
+import UploadInput from '@/components/shared/UploadInput.vue'; interface VibeImage { id: number; url: string; title: string; width: number; height: number; sort_order: number; }
 const api = useApi();
 const images = ref<VibeImage[]>([]);
 const showForm = ref(false);
@@ -69,8 +69,8 @@ async function remove(id: number) {
         <div class="bento-card p-6 w-full max-w-lg bg-brandDark/95">
           <h2 class="text-lg font-bold text-white mb-4">{{ form.id ? '编辑' : '新增' }}图片</h2>
           <div class="space-y-3">
-            <div class="flex gap-2">
-              <input v-model="form.url" placeholder="图片 URL *" class="flex-1 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-brandCyan focus:outline-none" @blur="detectSize">
+            <div class="flex gap-2 items-end">
+              <div class="flex-1"><UploadInput v-model="form.url" @blur="detectSize" /></div>
               <button type="button" @click="detectSize" class="px-3 py-2 rounded-lg bg-white/5 text-gray-400 text-xs hover:text-white transition">识别尺寸</button>
             </div>
             <input v-model="form.title" placeholder="标题" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-brandCyan focus:outline-none">

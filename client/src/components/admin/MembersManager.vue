@@ -3,6 +3,7 @@ import { onMounted, ref, computed } from 'vue';
 import AdminLayout from './AdminLayout.vue';
 import { useAppStore } from '@/stores/app';
 import { useApi } from '@/composables/useApi';
+import UploadInput from '@/components/shared/UploadInput.vue';
 import type { Member } from '@/types';
 
 const store = useAppStore();
@@ -73,24 +74,21 @@ async function exportMembers() {
   const blob = await res.blob();
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url; a.download = `members_${selectedGrade.value}.xlsx`; a.click();
+  a.href = url; a.download = `members_${selectedGrade.value}.zip`; a.click();
   URL.revokeObjectURL(url);
 }
 
 async function handleImport(e: Event) {
   const file = (e.target as HTMLInputElement).files?.[0];
   if (!file) return;
-  const XLSX = await import('xlsx');
-  const data = await file.arrayBuffer();
-  const wb = XLSX.read(data);
-  const sheet = wb.Sheets[wb.SheetNames[0]];
-  const rows = XLSX.utils.sheet_to_json(sheet);
-  if (!rows.length) { alert('无数据'); return; }
   const token = localStorage.getItem('token');
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('year', selectedGrade.value);
   const res = await fetch('/api/members/import', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-    body: JSON.stringify({ year: selectedGrade.value, data: rows }),
+    headers: { Authorization: `Bearer ${token}` },
+    body: formData,
   });
   const result = await res.json();
   alert(`导入完成: ${result.imported} 条`);
@@ -128,10 +126,10 @@ onMounted(() => { fetchGrades(); });
           <span class="text-sm text-gray-400">{{ selectedGrade }} 级 · {{ filteredMembers.length }} 名成员</span>
           <div class="flex gap-2">
             <button @click="deleteGrade(selectedGrade)" class="px-3 py-1.5 rounded-lg bg-red-400/10 text-red-400 text-xs border border-red-400/20 hover:bg-red-400/20 transition">删除该年级</button>
-            <button @click="exportMembers" class="px-3 py-1.5 rounded-lg bg-white/5 text-gray-300 text-xs border border-white/10 hover:bg-white/10 transition">导出 Excel</button>
+            <button @click="exportMembers" class="px-3 py-1.5 rounded-lg bg-white/5 text-gray-300 text-xs border border-white/10 hover:bg-white/10 transition">导出成员</button>
             <label class="px-3 py-1.5 rounded-lg bg-white/5 text-gray-300 text-xs border border-white/10 hover:bg-white/10 transition cursor-pointer">
-              导入 Excel
-              <input type="file" accept=".xlsx,.xls,.csv" class="hidden" @change="handleImport">
+              导入成员
+              <input type="file" accept=".zip,.xlsx,.xls,.csv" class="hidden" @change="handleImport">
             </label>
             <button @click="createNew" class="px-4 py-2 rounded-lg bg-brandCyan text-black text-xs font-bold hover:bg-brandCyan/80 transition">+ 新增成员</button>
           </div>
@@ -177,7 +175,7 @@ onMounted(() => { fetchGrades(); });
               <option value="">选择部门</option>
               <option v-for="d in depts" :key="d" :value="d">{{ d }}</option>
             </select>
-            <input v-model="form.avatar" placeholder="头像 URL" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-brandCyan focus:outline-none">
+            <UploadInput v-model="form.avatar" />
             <input v-model="form.dest" placeholder="座右铭" class="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-xs focus:border-brandCyan focus:outline-none">
             <div class="flex justify-end gap-3 pt-2">
               <button @click="showForm = false" class="px-4 py-2 rounded-lg bg-white/10 text-white text-xs">取消</button>
