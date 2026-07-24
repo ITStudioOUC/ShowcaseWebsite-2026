@@ -37,7 +37,8 @@ onMounted(async () => {
     const grades = await api.get<{year:string}[]>('/grades');
     allYears.value = grades.map((g: {year:string}) => g.year);
     if (!allYears.value.length) allYears.value = ['2026'];
-  } catch { allYears.value = ['2026']; }
+    currentYear.value = allYears.value[0]; // 默认选中第一个年级
+  } catch { allYears.value = ['2026']; currentYear.value = '2026'; }
   await store.fetchMembers(currentYear.value, currentDept.value);
 });
 
