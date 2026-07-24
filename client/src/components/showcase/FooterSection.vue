@@ -11,7 +11,7 @@ const currentYear = new Date().getFullYear();
       <div class="space-y-3 md:col-span-1">
         <div class="flex items-center gap-2 text-white font-bold text-base">
           <img src="@/assets/itlogo.svg" alt="爱特工作室" class="w-6 h-6">
-          中国海洋大学爱特工作室
+          <img src="@/assets/itword.svg" alt="爱特工作室" class="h-6 w-auto" style="filter: invert(0.85)" />
         </div>
         <p class="text-[11px] leading-relaxed text-gray-500 font-sans">
           中国海洋大学信息科学与工程学部领导下的技术性团体，发现人才、培养人才、输送人才。

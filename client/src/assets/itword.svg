@@ -1,8 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="3000" height="2000" viewBox="0 500 3000 2000">
+<svg xmlns="http://www.w3.org/2000/svg" width="3000" height="2000" viewBox="350 1150 2350 750">
   <defs>
+    <linearGradient id="text-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#88e1fa"/>
+      <stop offset="40%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#4f92d6"/>
+    </linearGradient>
     <style>
       .cls-1 {
-        fill: #000000;
+        fill: url(#text-grad);
         stroke-width: 1px;
         fill-rule: evenodd;
       }
