@@ -15,6 +15,7 @@ import statRoutes from './routes/stats.js';
 import uploadRoutes from './routes/upload.js';
 import orgLeaderRoutes from './routes/orgLeaders.js';
 import mentorRoutes from './routes/mentors.js';
+import gradeRoutes from './routes/grades.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -46,6 +47,7 @@ app.use('/api/stats', statRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/org-leaders', orgLeaderRoutes);
 app.use('/api/mentors', mentorRoutes);
+app.use('/api/grades', gradeRoutes);
 
 // SPA fallback: 所有非 API 请求返回 index.html
 app.get(/^\/(?!api\/|uploads\/).*/, (_req, res) => {

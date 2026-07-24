@@ -59,19 +59,26 @@ import db, { initDB } from './db.js';
   }
   console.log('[Seed] ✓ 组织架构干部');
 
-  // 4. 成员
+  // 4. 年级
+  db.prepare('DELETE FROM grades').run();
+  for (const y of ['2026', '2025', '2024', '2023']) {
+    db.prepare('INSERT OR IGNORE INTO grades (year) VALUES (?)').run(y);
+  }
+  console.log('[Seed] ✓ 年级数据');
+
+  // 5. 成员
   db.prepare('DELETE FROM members').run();
   const membersData = [
-    ['2026', '委员会', '会长', '李明', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&q=80', '保研至清华大学', '保研C9', '', 0],
-    ['2026', '委员会', '副会长', '张华', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&q=80', '入职腾讯 IEG', '大厂Offer', '', 1],
-    ['2026', '委员会', '团支书', '王强', 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&q=80', '保研至浙江大学', '保研C9', '', 2],
-    ['2026', '委员会', '站长', '赵科', 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&q=80', '入职字节跳动', '大厂Offer', '', 3],
-    ['2026', '委员会', '副站长', '孙杰', 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=150&q=80', '保研至上海交大', '保研C9', '', 4],
-    ['2026', 'FOSS部', '部长', '刘开源', 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&q=80', '开源社区 Core Dev', '开源骨干', '', 5],
-    ['2026', '系统维护部', '部长', '陈运维', 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=150&q=80', '保研至复旦大学', '保研C9', '', 6],
-    ['2026', '宣传部', '部长', '周设计', 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&q=80', '入职美团 UI/UX', '大厂Offer', '', 7],
-    ['2026', '程序部', '部长', '吴后端', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&q=80', '保研至中国海大', '本校保研', '', 8],
-    ['2026', 'Web部', '部长', '郑前端', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&q=80', '入职快手前端', '大厂Offer', '', 9],
+    ['2026', '委员会', '会长', '李明', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&q=80', '代码改变世界', '保研C9', '', 0],
+    ['2026', '委员会', '副会长', '张华', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&q=80', 'Stay Hungry, Stay Foolish', '大厂Offer', '', 1],
+    ['2026', '委员会', '团支书', '王强', 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&q=80', '知行合一', '保研C9', '', 2],
+    ['2026', '委员会', '站长', '赵科', 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&q=80', '技术为本，创新为魂', '大厂Offer', '', 3],
+    ['2026', '委员会', '副站长', '孙杰', 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=150&q=80', '追求卓越，永不止步', '保研C9', '', 4],
+    ['2026', 'FOSS部', '部长', '刘开源', 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&q=80', '自由软件，自由思想', '开源骨干', '', 5],
+    ['2026', '系统维护部', '部长', '陈运维', 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=150&q=80', '稳定压倒一切', '保研C9', '', 6],
+    ['2026', '宣传部', '部长', '周设计', 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&q=80', '设计源于生活', '大厂Offer', '', 7],
+    ['2026', '程序部', '部长', '吴后端', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&q=80', 'Talk is cheap, show me the code', '本校保研', '', 8],
+    ['2026', 'Web部', '部长', '郑前端', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&q=80', '像素级完美', '大厂Offer', '', 9],
   ];
   for (const row of membersData) {
     db.prepare('INSERT INTO members (year, dept, title, name, avatar, dest, badge, tech, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)').run(...row);
