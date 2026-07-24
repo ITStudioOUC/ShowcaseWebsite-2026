@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, shallowRef, onMounted, onUnmounted } from 'vue';
 
 const cursorX = ref(0);
 const cursorY = ref(0);
 const hue = ref(180);
 const isInteractive = ref(false);
-const trails: { x: number; y: number; hue: number; r: number; opacity: number }[] = [];
+const visible = ref(true);
+
+interface Trail { x: number; y: number; hue: number; r: number; opacity: number; }
+let trailsArr: Trail[] = [];
+const trailsRef = shallowRef<Trail[]>([]);
 let animId = 0;
 let mouseX = 0, mouseY = 0;
 
@@ -17,35 +21,54 @@ function onMouseMove(e: MouseEvent) {
   hue.value = (hue.value + 0.35) % 360;
   cursorX.value = mouseX;
   cursorY.value = mouseY;
+  visible.value = true;
   const el = document.elementFromPoint(mouseX, mouseY);
   isInteractive.value = el ? !!el.closest(SELECTOR) : false;
-  trails.push({ x: mouseX, y: mouseY, hue: hue.value, r: 5, opacity: 0.8 });
-  if (trails.length > 30) trails.splice(0, trails.length - 30);
+  trailsArr.push({ x: mouseX, y: mouseY, hue: hue.value, r: 5, opacity: 0.8 });
+  if (trailsArr.length > 30) trailsArr.splice(0, trailsArr.length - 30);
+}
+
+function onMouseLeave() {
+  visible.value = false;
+  trailsArr.length = 0;
+  trailsRef.value = [];
 }
 
 function animate() {
-  for (let i = trails.length - 1; i >= 0; i--) {
-    trails[i].r *= 0.92;
-    trails[i].opacity *= 0.90;
-    if (trails[i].opacity < 0.01) trails.splice(i, 1);
+  let changed = false;
+  for (let i = trailsArr.length - 1; i >= 0; i--) {
+    const t = trailsArr[i];
+    t.r *= 0.92;
+    t.opacity *= 0.90;
+    if (t.opacity < 0.01) {
+      trailsArr.splice(i, 1);
+      changed = true;
+    } else {
+      changed = true;
+    }
   }
+  // 替换整个数组引用触发 shallowRef 更新
+  if (changed) trailsRef.value = [...trailsArr];
   animId = requestAnimationFrame(animate);
 }
 
 onMounted(() => {
   window.addEventListener('mousemove', onMouseMove, { passive: true });
+  document.addEventListener('mouseleave', onMouseLeave);
   animId = requestAnimationFrame(animate);
 });
 
 onUnmounted(() => {
   window.removeEventListener('mousemove', onMouseMove);
+  document.removeEventListener('mouseleave', onMouseLeave);
   cancelAnimationFrame(animId);
 });
 </script>
 
 <template>
+  <div v-show="visible">
   <!-- 拖尾 -->
-  <div v-for="(t, i) in trails" :key="i"
+  <div v-for="(t, i) in trailsRef" :key="i"
        class="fixed pointer-events-none rounded-full"
        :style="{
          left: t.x + 'px', top: t.y + 'px',
@@ -69,5 +92,6 @@ onUnmounted(() => {
             :fill="`hsl(${hue}, 85%, 70%)`"
             :stroke="`hsl(${hue}, 95%, 85%)`" stroke-width="0.8" stroke-linejoin="round" />
     </svg>
+  </div>
   </div>
 </template>
