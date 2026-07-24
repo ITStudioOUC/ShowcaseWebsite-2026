@@ -2,6 +2,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { useAppStore } from '@/stores/app';
 import { useApi } from '@/composables/useApi';
+import gsap from 'gsap';
 
 const store = useAppStore();
 const api = useApi();
@@ -25,6 +26,12 @@ onMounted(async () => {
 // 分两列, 每列最多4个
 const linksCol1 = computed(() => friendLinks.value.slice(0, 4));
 const linksCol2 = computed(() => friendLinks.value.slice(4, 8));
+
+const fufuRevealed = ref(false);
+function revealFufu(e: MouseEvent) {
+  const el = e.currentTarget as HTMLElement;
+  gsap.to(el, { y: window.innerHeight, duration: 0.8, ease: 'power2.in', onComplete: () => { fufuRevealed.value = true; } });
+}
 
 
 </script>
@@ -88,6 +95,13 @@ const linksCol2 = computed(() => friendLinks.value.slice(4, 8));
     <!-- 备案号 (横线下方, 居中) -->
     <div class="max-w-7xl mx-auto text-center text-[11px] text-gray-500 mt-2">
       <a href="https://beian.miit.gov.cn/" target="_blank" class="hover:text-brandCyan transition">{{ store.stats.icp_number || '鲁ICP备XXXXXXX号' }}</a> | <a href="https://beian.mps.gov.cn/#/query/webSearch" target="_blank" class="hover:text-brandCyan transition">{{ store.stats.gongan_number || '鲁公网安备 XXXXXXX号' }}</a>
+    </div>
+    <!-- 右下角彩蛋 -->
+    <div class="absolute right-0 bottom-0 flex flex-col items-center">
+      <img src="@/assets/fufu.JPG" alt="fufu" class="w-28 h-auto" />
+      <p class="text-[9px] text-gray-600">啊啊啊雪雪被发现了</p>
+      <!-- 黑色遮罩, 点击后马里奥掉落 -->
+      <div v-if="!fufuRevealed" class="absolute inset-0 cursor-pointer" style="background: linear-gradient(to bottom, #0a101e, #060c16);" @click="revealFufu"></div>
     </div>
   </footer>
 </template>
