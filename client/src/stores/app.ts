@@ -40,7 +40,9 @@ export const useAppStore = defineStore('app', () => {
       const params = new URLSearchParams();
       if (year) params.set('year', year);
       if (dept) params.set('dept', dept);
-      members.value = await api.get<Member[]>(`/members?${params.toString()}`);
+      const res = await api.get<any>(`/members?${params.toString()}`);
+      // API 返回 { members, total } 或直接数组
+      members.value = Array.isArray(res) ? res : (res.members || []);
     } catch (e) {
       console.error('获取成员列表失败:', e);
     } finally {
@@ -90,7 +92,6 @@ export const useAppStore = defineStore('app', () => {
   async function fetchAllData() {
     await Promise.all([
       fetchStats(),
-      fetchMembers(),
       fetchAchievements(),
       fetchFaqs(),
       fetchOrgLeaders(),
