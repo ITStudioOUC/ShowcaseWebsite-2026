@@ -73,6 +73,10 @@ export interface Mentor {
   name: string;
   avatar: string;
   research: string;
+  college: string;
+  email: string;
+  office: string;
+  academic_title: string;
   sort_order: number;
 }
 

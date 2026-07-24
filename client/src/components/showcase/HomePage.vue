@@ -54,8 +54,8 @@ async function onIntroDone() {
         <HeroSection class="h-screen" @intro-done="onIntroDone" />
       </div>
       <AboutSection />
-      <MembersSection />
       <MentorsSection />
+      <MembersSection />
       <AchievementsSection />
       <VibesSection />
       <ActivitiesSection />

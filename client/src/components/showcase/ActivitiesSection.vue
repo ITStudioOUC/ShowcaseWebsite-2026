@@ -5,10 +5,10 @@ const store = useAppStore();
 </script>
 
 <template>
-  <section class="py-20 px-6 lg:px-16 max-w-7xl mx-auto">
+  <section class="py-24 px-6 lg:px-16 max-w-7xl mx-auto">
     <div class="mb-12">
-      <span class="text-xs font-mono text-brandEmerald tracking-widest uppercase font-bold">07 / ACTIVITIES & EVENTS</span>
-      <h2 class="text-3xl lg:text-4xl font-black text-white mt-1">近期社团活动与体验</h2>
+      <span class="text-sm font-mono text-brandEmerald tracking-[0.3em] uppercase font-bold">06 / ACTIVITIES & EVENTS</span>
+      <h2 class="text-4xl lg:text-6xl font-black text-white mt-1">近期社团活动与体验</h2>
     </div>
 
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">

@@ -30,6 +30,12 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
+      path: '/admin/mentors',
+      name: 'admin-mentors',
+      component: () => import('@/components/admin/MentorsManager.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
       path: '/admin/achievements',
       name: 'admin-achievements',
       component: () => import('@/components/admin/AchievementsManager.vue'),

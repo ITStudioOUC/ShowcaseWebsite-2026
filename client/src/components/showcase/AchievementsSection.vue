@@ -5,10 +5,10 @@ const store = useAppStore();
 </script>
 
 <template>
-  <section id="achievements" class="py-20 px-6 lg:px-16 max-w-7xl mx-auto">
+  <section id="achievements" class="py-24 px-6 lg:px-16 max-w-7xl mx-auto">
     <div class="mb-16 text-center">
-      <span class="text-xs font-mono text-brandCyan tracking-widest uppercase font-bold">05 / OCEAN DEPTH LOGS</span>
-      <h2 class="text-3xl lg:text-5xl font-black text-white mt-1">我们的成果与深海里程碑</h2>
+      <span class="text-sm font-mono text-brandCyan tracking-[0.3em] uppercase font-bold">04 / OCEAN DEPTH LOGS</span>
+      <h2 class="text-4xl lg:text-6xl font-black text-white mt-1">我们的成果与深海里程碑</h2>
       <p class="text-sm text-gray-400 mt-2">沿海洋深度标逐级下潜，探索爱特团队二十四载项目积淀</p>
     </div>
 

@@ -11,11 +11,11 @@ function toggle(idx: number) {
 </script>
 
 <template>
-  <section id="qa" class="py-20 px-6 lg:px-16 max-w-7xl mx-auto">
+  <section id="qa" class="py-24 px-6 lg:px-16 max-w-7xl mx-auto">
     <div class="grid lg:grid-cols-12 gap-12 items-start">
       <div class="lg:col-span-5 space-y-4">
-        <span class="text-xs font-mono text-brandCyan tracking-widest uppercase font-bold">08 / FREQUENTLY ASKED QUESTIONS</span>
-        <h2 class="text-3xl lg:text-4xl font-black text-white">加入爱特 · 常见解答</h2>
+        <span class="text-sm font-mono text-brandCyan tracking-[0.3em] uppercase font-bold">07 / FREQUENTLY ASKED QUESTIONS</span>
+        <h2 class="text-4xl lg:text-6xl font-black text-white mt-1">加入爱特 · 常见解答</h2>
         <p class="text-sm text-gray-400 leading-relaxed">
           零基础可以加入吗？考核流程是怎样的？这里解答你对爱特工作室的一切好奇。
         </p>

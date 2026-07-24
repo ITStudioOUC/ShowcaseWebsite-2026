@@ -11,8 +11,8 @@ const vibeImages = [
   <section id="vibes" class="py-20 overflow-hidden relative">
     <div class="max-w-7xl mx-auto px-6 lg:px-16 mb-8 flex justify-between items-end">
       <div>
-        <span class="text-xs font-mono text-brandCyan tracking-widest uppercase font-bold">06 / STUDIO VIBES</span>
-        <h2 class="text-3xl lg:text-4xl font-black text-white mt-1">工作室风情与洋流记忆</h2>
+        <span class="text-sm font-mono text-brandCyan tracking-[0.3em] uppercase font-bold">05 / STUDIO VIBES</span>
+        <h2 class="text-4xl lg:text-6xl font-black text-white mt-1">工作室风情与洋流记忆</h2>
       </div>
       <p class="text-xs font-mono text-gray-400 hidden md:block">鼠标悬停可使洋流暂停并放大 1.8 倍</p>
     </div>

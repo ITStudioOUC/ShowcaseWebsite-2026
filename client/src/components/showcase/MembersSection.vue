@@ -19,11 +19,11 @@ watch([currentYear, currentDept], async ([year, dept]) => {
 </script>
 
 <template>
-  <section id="members" class="py-20 px-6 lg:px-16 max-w-7xl mx-auto">
+  <section id="members" class="py-24 px-6 lg:px-16 max-w-7xl mx-auto">
     <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-6">
       <div>
-        <span class="text-xs font-mono text-brandCyan tracking-widest uppercase font-bold">03 / MEMBER DIRECTORY</span>
-        <h2 class="text-3xl lg:text-4xl font-black text-white mt-1">历年干部 & 成员名录</h2>
+        <span class="text-sm font-mono text-brandCyan tracking-[0.3em] uppercase font-bold">03 / MEMBER DIRECTORY</span>
+        <h2 class="text-4xl lg:text-6xl font-black text-white mt-1">历年干部 & 成员名录</h2>
       </div>
 
       <div class="flex flex-wrap items-center gap-3">

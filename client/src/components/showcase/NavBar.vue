@@ -3,8 +3,8 @@ import { ref, onMounted, onUnmounted } from 'vue';
 
 const sections = [
   { id: 'about',        label: '关于爱特',   num: '01' },
-  { id: 'members',      label: '历年名录',   num: '02' },
-  { id: 'mentors',      label: '导师团队',   num: '03' },
+  { id: 'mentors',      label: '导师团队',   num: '02' },
+  { id: 'members',      label: '历年名录',   num: '03' },
   { id: 'achievements', label: '深度成果',   num: '04' },
   { id: 'vibes',        label: '时光风情',   num: '05' },
   { id: 'qa',           label: '纳新Q&A',    num: '06' },

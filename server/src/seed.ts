@@ -93,12 +93,12 @@ import db, { initDB } from './db.js';
   // 6. 导师
   db.prepare('DELETE FROM mentors').run();
   const mentorsData = [
-    ['团委指导老师', '高峰 老师', 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&q=80', '学生科创指导 / 思想政治教育', 0],
-    ['技术指导老师', '董军宇 教授', 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&q=80', '计算机视觉 / 海洋大数据分析', 1],
-    ['企业指导老师', '海信/阿里云 资深架构师', 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=200&q=80', '云原生架构 / 开源生态产学研', 2],
+    ['团委指导老师', '高峰 老师', 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&q=80', '学生科创指导 / 思想政治教育', '信息科学与工程学部', 'gaofeng@ouc.edu.cn', '西海岸校区58工坊201', '团委书记', 0],
+    ['技术指导老师', '董军宇 教授', 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&q=80', '计算机视觉 / 海洋大数据分析', '信息科学与工程学部', 'dongjy@ouc.edu.cn', '西海岸校区信息楼B308', '教授 / 博士生导师', 1],
+    ['企业指导老师', '刘架构 先生', 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=200&q=80', '云原生架构 / 开源生态产学研', '海信集团 / 阿里云', 'liujg@hisense.com', '海信研发中心', '资深架构师', 2],
   ];
   for (const row of mentorsData) {
-    db.prepare('INSERT INTO mentors (title, name, avatar, research, sort_order) VALUES (?, ?, ?, ?, ?)').run(...row);
+    db.prepare('INSERT INTO mentors (title, name, avatar, research, college, email, office, academic_title, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)').run(...row);
   }
   console.log('[Seed] ✓ 导师数据');
 

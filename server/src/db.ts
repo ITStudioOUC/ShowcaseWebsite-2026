@@ -214,6 +214,10 @@ async function initDB() {
       name TEXT NOT NULL,
       avatar TEXT DEFAULT '',
       research TEXT DEFAULT '',
+      college TEXT DEFAULT '',
+      email TEXT DEFAULT '',
+      office TEXT DEFAULT '',
+      academic_title TEXT DEFAULT '',
       sort_order INTEGER DEFAULT 0,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );
