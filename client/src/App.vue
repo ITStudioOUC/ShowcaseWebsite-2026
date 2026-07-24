@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import Lenis from '@studio-freight/lenis';
+import CustomCursor from '@/components/shared/CustomCursor.vue';
 
 onMounted(() => {
   const lenis = new Lenis({
@@ -25,4 +26,5 @@ onMounted(() => {
 
 <template>
   <router-view />
+  <CustomCursor />
 </template>
