@@ -48,12 +48,6 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
-      path: '/admin/activities',
-      name: 'admin-activities',
-      component: () => import('@/components/admin/ActivitiesManager.vue'),
-      meta: { requiresAuth: true },
-    },
-    {
       path: '/admin/articles',
       name: 'admin-articles',
       component: () => import('@/components/admin/ArticlesManager.vue'),

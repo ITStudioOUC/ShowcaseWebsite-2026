@@ -176,16 +176,6 @@ async function initDB() {
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );
 
-    CREATE TABLE IF NOT EXISTS activities (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      title TEXT NOT NULL,
-      "desc" TEXT DEFAULT '',
-      link TEXT DEFAULT '',
-      svg_d TEXT DEFAULT '',
-      sort_order INTEGER DEFAULT 0,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    );
-
     CREATE TABLE IF NOT EXISTS articles (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       slug TEXT UNIQUE NOT NULL,

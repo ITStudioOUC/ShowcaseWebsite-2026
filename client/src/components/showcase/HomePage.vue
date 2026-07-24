@@ -11,7 +11,6 @@ import MembersSection from '@/components/showcase/MembersSection.vue';
 import MentorsSection from '@/components/showcase/MentorsSection.vue';
 import AchievementsSection from '@/components/showcase/AchievementsSection.vue';
 import VibesSection from '@/components/showcase/VibesSection.vue';
-import ActivitiesSection from '@/components/showcase/ActivitiesSection.vue';
 import FaqSection from '@/components/showcase/FaqSection.vue';
 import FooterSection from '@/components/showcase/FooterSection.vue';
 import { useAppStore } from '@/stores/app';
@@ -58,7 +57,6 @@ async function onIntroDone() {
       <MembersSection />
       <AchievementsSection />
       <VibesSection />
-      <ActivitiesSection />
       <FaqSection />
     </main>
     <FooterSection />

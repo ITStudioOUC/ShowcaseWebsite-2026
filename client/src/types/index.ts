@@ -33,16 +33,6 @@ export interface Faq {
   sort_order: number;
 }
 
-// 活动
-export interface Activity {
-  id: number;
-  title: string;
-  desc: string;
-  link: string;
-  svg_d: string;
-  sort_order: number;
-}
-
 // 文章
 export interface Article {
   id: number;

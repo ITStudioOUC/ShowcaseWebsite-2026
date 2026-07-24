@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { useApi } from '@/composables/useApi';
-import type { Member, Achievement, Faq, Activity, OrgLeader, Mentor, SiteStats } from '@/types';
+import type { Member, Achievement, Faq, OrgLeader, Mentor, SiteStats } from '@/types';
 
 const api = useApi();
 
@@ -20,7 +20,6 @@ export const useAppStore = defineStore('app', () => {
   const members = ref<Member[]>([]);
   const achievements = ref<Achievement[]>([]);
   const faqs = ref<Faq[]>([]);
-  const activities = ref<Activity[]>([]);
   const orgLeaders = ref<OrgLeader[]>([]);
   const mentors = ref<Mentor[]>([]);
   const vibeImages = ref<any[]>([]);
@@ -66,14 +65,6 @@ export const useAppStore = defineStore('app', () => {
     }
   }
 
-  async function fetchActivities() {
-    try {
-      activities.value = await api.get<Activity[]>('/activities');
-    } catch (e) {
-      console.error('获取活动列表失败:', e);
-    }
-  }
-
   async function fetchOrgLeaders(dept?: string) {
     try {
       const params = dept ? `?dept=${encodeURIComponent(dept)}` : '';
@@ -103,7 +94,6 @@ export const useAppStore = defineStore('app', () => {
       fetchMembers(),
       fetchAchievements(),
       fetchFaqs(),
-      fetchActivities(),
       fetchOrgLeaders(),
       fetchMentors(),
       fetchVibeImages(),
@@ -111,8 +101,7 @@ export const useAppStore = defineStore('app', () => {
   }
 
   return {
-    stats, members, achievements, faqs, activities, orgLeaders, mentors, vibeImages, loading,
-    fetchStats, fetchMembers, fetchAchievements, fetchFaqs, fetchActivities,
+    stats, members, achievements, faqs, orgLeaders, mentors, vibeImages, loading,
     fetchOrgLeaders, fetchMentors, fetchAllData,
   };
 });

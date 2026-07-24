@@ -121,20 +121,7 @@ import db, { initDB } from './db.js';
   }
   console.log('[Seed] ✓ FAQ 数据');
 
-  // 8. 社团活动
-  db.prepare('DELETE FROM activities').run();
-  const activitiesData = [
-    ['OpenClaw 高校局科普活动', '联合阿里云与 CCF 海大学生分会举办开源 AI 智能体科普讲座。', 'https://www.ccf.org.cn/', 'M13 10V3L4 14h7v7l9-11h-7z', 0],
-    ['CSP 软件能力认证培训', '承办海大 CSP 认证报名宣传与考前算法刷题冲刺培训。', 'https://www.ccf.org.cn/', 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z', 1],
-    ['CCF 走进中国海洋大学', '邀请国内著名专家学者开展学术讲座，与青年学生面对面交流。', 'https://www.ccf.org.cn/', 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z', 2],
-    ['海边极客黑客马拉松', '48小时极限开发，将创意孵化为可运行的校园原型系统。', 'https://github.com/ITStudioOUC', 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4', 3],
-  ];
-  for (const row of activitiesData) {
-    db.prepare('INSERT INTO activities (title, "desc", link, svg_d, sort_order) VALUES (?, ?, ?, ?, ?)').run(...row);
-  }
-  console.log('[Seed] ✓ 社团活动数据');
-
-  // 9. 风情图片
+  // 8. 风情图片
   db.prepare('DELETE FROM vibe_images').run();
   const vibeData = [
     ['https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80', '团队协作', 800, 533, 0],
