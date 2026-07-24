@@ -20,11 +20,12 @@ const FIELD_MAP: Record<string, string> = {
   '职务': 'title',
   '座右铭': 'dest',
   '头像': 'avatar',
+  '权重': 'sort_order',
 };
 const REVERSE_MAP: Record<string, string> = {
-  name: '姓名', dept: '部门', title: '职务', dest: '座右铭', avatar: '头像',
+  name: '姓名', dept: '部门', title: '职务', dest: '座右铭', avatar: '头像', sort_order: '权重',
 };
-const FIELDS = ['姓名', '部门', '职务', '座右铭', '头像'];
+const FIELDS = ['姓名', '部门', '职务', '座右铭', '头像', '权重'];
 
 // GET /api/members?year=&dept=
 router.get('/', (req: Request, res: Response) => {
@@ -41,7 +42,7 @@ router.get('/', (req: Request, res: Response) => {
     params.push(dept);
   }
 
-  sql += ' ORDER BY sort_order, id DESC';
+  sql += ' ORDER BY sort_order DESC, id DESC';
   const members = db.prepare(sql).all(...params);
   res.json(members);
 });
@@ -61,7 +62,7 @@ router.get('/depts', (_req: Request, res: Response) => {
 // GET /api/members/export?year=
 router.get('/export', authMiddleware, async (_req: Request, res: Response) => {
   const year = _req.query.year as string;
-  let sql = 'SELECT name, dept, title, dest, avatar FROM members';
+  let sql = 'SELECT name, dept, title, dest, avatar, sort_order FROM members';
   const params: any[] = [];
   if (year && year !== '全部') { sql += ' WHERE year = ?'; params.push(year); }
   sql += ' ORDER BY sort_order, id';
@@ -73,7 +74,7 @@ router.get('/export', authMiddleware, async (_req: Request, res: Response) => {
     if (avatar.startsWith('/uploads/')) {
       avatar = path.basename(avatar);
     }
-    return { '姓名': r.name, '部门': r.dept, '职务': r.title, '座右铭': r.dest, '头像': avatar };
+    return { '姓名': r.name, '部门': r.dept, '职务': r.title, '座右铭': r.dest, '头像': avatar, '权重': r.sort_order || 0 };
   });
 
   const ws = XLSX.utils.json_to_sheet(data, { header: FIELDS });
@@ -98,7 +99,7 @@ router.get('/export', authMiddleware, async (_req: Request, res: Response) => {
   zip.file(`members_${year || 'all'}.xlsx`, Buffer.from(xlsxBuf));
   const photosFolder = zip.folder('photos')!;
   photoFiles.forEach(p => photosFolder.file(p.name, fs.readFileSync(p.path)));
-  const zipBuf = await zip.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE' });
+  const zipBuf = await zip.generateAsync({ type: 'nodebuffer' });
 
   res.setHeader('Content-Type', 'application/zip');
   res.setHeader('Content-Disposition', `attachment; filename=members_${year || 'all'}.zip`);
@@ -131,16 +132,17 @@ router.post('/import', authMiddleware, upload.single('file'), async (req: Reques
 
   if (!data.length) { res.status(400).json({ error: '无数据' }); return; }
   let imported = 0;
-  const stmt = db.prepare('INSERT INTO members (year, name, dept, title, dest, avatar) VALUES (?, ?, ?, ?, ?, ?)');
+  const stmt = db.prepare('INSERT INTO members (year, name, dept, title, dest, avatar, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?)');
   for (const row of data) {
     const name = row['姓名'] || row['name'] || '';
     const dept = row['部门'] || row['dept'] || '';
     const title = row['职务'] || row['title'] || '';
     const dest = row['座右铭'] || row['dest'] || '';
     let avatar = row['头像'] || row['avatar'] || '';
+    const sort_order = parseInt(row['权重'] || row['sort_order'] || '0') || 0;
     if (avatar && !avatar.startsWith('http') && !avatar.startsWith('/uploads/')) avatar = '/uploads/' + avatar;
     if (!name) continue;
-    stmt.run(year, name, dept, title, dest, avatar);
+    stmt.run(year, name, dept, title, dest, avatar, sort_order);
     imported++;
   }
   res.json({ imported });
