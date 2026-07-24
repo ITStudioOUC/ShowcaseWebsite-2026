@@ -22,6 +22,8 @@ import db, { initDB } from './db.js';
     ['placement_rate', '98.2', 'C9保研/大厂率'],
     ['project_count', '50', '上线校园系统数量'],
     ['live_status', '西海岸校区 58 创新创业工坊算力集群在线 · CSP 认证服务运行中 · CCF 海大学生分会正式换届', '顶部状态栏滚动文字'],
+    ['icp_number', '鲁ICP备XXXXXXX号', 'ICP备案号'],
+    ['gongan_number', '鲁公网安备 XXXXXXX号', '公安备案号'],
     ['qq_group', '589598653', '招新QQ群号'],
     ['email', 'contact@itstudio.club', '联系邮箱'],
     ['address', '山东省青岛市古镇口核心区三沙路2000号 西海岸校区', '线下地址'],
@@ -121,7 +123,34 @@ import db, { initDB } from './db.js';
   }
   console.log('[Seed] ✓ FAQ 数据');
 
-  // 8. 风情图片
+  // 8. 页脚联系方式
+  db.prepare('DELETE FROM footer_contacts').run();
+  const footerContactsData = [
+    ['招新QQ群：[589598653](https://qm.qq.com/cgi-bin/qm/qr?k=QQ589598653)', 0],
+    ['邮箱：[contact@itstudio.club](mailto:contact@itstudio.club)', 1],
+    ['地址：山东省青岛市古镇口核心区三沙路2000号 西海岸校区', 2],
+  ];
+  for (const row of footerContactsData) {
+    db.prepare('INSERT INTO footer_contacts (text, sort_order) VALUES (?, ?)').run(...row);
+  }
+  console.log('[Seed] ✓ 页脚联系方式');
+
+  // 9. 友情链接
+  db.prepare('DELETE FROM friend_links').run();
+  const friendLinksData = [
+    ['中国海洋大学', 'https://www.ouc.edu.cn/', 0],
+    ['信息科学与工程学部', 'https://it.ouc.edu.cn/', 1],
+    ['CCF 中国计算机学会', 'https://www.ccf.org.cn/', 2],
+    ['OpenHarmony 开源鸿蒙', 'https://www.openharmony.cn/', 3],
+    ['GitHub ITStudio', 'https://github.com/ITStudioOUC', 4],
+    ['ITStudio Wiki', 'https://wiki.itstudio.club/', 5],
+  ];
+  for (const row of friendLinksData) {
+    db.prepare('INSERT INTO friend_links (title, url, sort_order) VALUES (?, ?, ?)').run(...row);
+  }
+  console.log('[Seed] ✓ 友情链接');
+
+  // 9. 风情图片
   db.prepare('DELETE FROM vibe_images').run();
   const vibeData = [
     ['https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80', '团队协作', 800, 533, 0],

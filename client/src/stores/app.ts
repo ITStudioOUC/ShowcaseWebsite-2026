@@ -12,6 +12,8 @@ export const useAppStore = defineStore('app', () => {
     placement_rate: '98.2',
     project_count: '50',
     live_status: '加载中...',
+    icp_number: '',
+    gongan_number: '',
     qq_group: '589598653',
     email: 'contact@itstudio.club',
     address: '山东省青岛市古镇口核心区三沙路2000号 西海岸校区',

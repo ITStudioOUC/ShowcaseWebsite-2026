@@ -54,6 +54,12 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
+      path: '/admin/friend-links',
+      name: 'admin-friend-links',
+      component: () => import('@/components/admin/FriendLinksManager.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
       path: '/admin/vibe-images',
       name: 'admin-vibe-images',
       component: () => import('@/components/admin/VibeImagesManager.vue'),

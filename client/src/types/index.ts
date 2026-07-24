@@ -77,6 +77,8 @@ export interface SiteStats {
   placement_rate: string;
   project_count: string;
   live_status: string;
+  icp_number: string;
+  gongan_number: string;
   qq_group: string;
   email: string;
   address: string;
