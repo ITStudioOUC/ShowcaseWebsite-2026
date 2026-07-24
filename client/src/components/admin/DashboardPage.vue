@@ -28,8 +28,8 @@ onMounted(() => {
           <div class="text-3xl font-black text-brandEmerald">{{ store.faqs.length }}</div>
         </div>
         <div class="bento-card p-5">
-          <div class="text-xs font-mono text-gray-400 mb-1">活动数量</div>
-          <div class="text-3xl font-black text-brandSky">{{ store.activities.length }}</div>
+          <div class="text-xs font-mono text-gray-400 mb-1">风情图片</div>
+          <div class="text-3xl font-black text-brandSky">{{ store.vibeImages.length }}</div>
         </div>
       </div>
     </div>

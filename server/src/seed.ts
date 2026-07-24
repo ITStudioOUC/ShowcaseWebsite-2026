@@ -24,9 +24,6 @@ import db, { initDB } from './db.js';
     ['live_status', '西海岸校区 58 创新创业工坊算力集群在线 · CSP 认证服务运行中 · CCF 海大学生分会正式换届', '顶部状态栏滚动文字'],
     ['icp_number', '鲁ICP备XXXXXXX号', 'ICP备案号'],
     ['gongan_number', '鲁公网安备 XXXXXXX号', '公安备案号'],
-    ['qq_group', '589598653', '招新QQ群号'],
-    ['email', 'contact@itstudio.club', '联系邮箱'],
-    ['address', '山东省青岛市古镇口核心区三沙路2000号 西海岸校区', '线下地址'],
   ];
   for (const [key, value, desc] of statsData) {
     db.prepare('INSERT INTO stats (key, value, description) VALUES (?, ?, ?)').run(key, value, desc);

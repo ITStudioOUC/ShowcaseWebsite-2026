@@ -14,9 +14,6 @@ export const useAppStore = defineStore('app', () => {
     live_status: '加载中...',
     icp_number: '',
     gongan_number: '',
-    qq_group: '589598653',
-    email: 'contact@itstudio.club',
-    address: '山东省青岛市古镇口核心区三沙路2000号 西海岸校区',
   });
 
   const members = ref<Member[]>([]);
@@ -104,6 +101,7 @@ export const useAppStore = defineStore('app', () => {
 
   return {
     stats, members, achievements, faqs, orgLeaders, mentors, vibeImages, loading,
+    fetchStats, fetchMembers, fetchAchievements, fetchFaqs, fetchVibeImages,
     fetchOrgLeaders, fetchMentors, fetchAllData,
   };
 });

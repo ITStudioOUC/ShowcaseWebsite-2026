@@ -79,8 +79,5 @@ export interface SiteStats {
   live_status: string;
   icp_number: string;
   gongan_number: string;
-  qq_group: string;
-  email: string;
-  address: string;
   [key: string]: string;
 }
