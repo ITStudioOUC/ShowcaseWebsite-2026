@@ -33,21 +33,21 @@ onMounted(() => {
     const logoShift = -(textW + gap) / 2;
 
     const tl = gsap.timeline();
-    tl.fromTo(logoRef.value, { opacity: 0, scale: 0.6 }, {
+    tl.fromTo(logoRef.value!, { opacity: 0, scale: 0.6 }, {
       opacity: 1, scale: 1, duration: 0.7, ease: 'back.out(1.3)',
     })
     .addLabel('slide', '-=0.15')
     // Logo 向左独立移动
-    .to(logoWrapRef.value, {
+    .to(logoWrapRef.value!, {
       x: logoShift, duration: 0.9, ease: 'power2.inOut',
     }, 'slide')
     // 文字从蒙版左侧(-100vw)向右滑出, 慢-快-慢
-    .to(textRef.value, {
+    .to(textRef.value!, {
       x: 0, duration: 0.9, ease: 'power2.inOut',
     }, 'slide')
     .to({}, { duration: 0.4 })
     .call(() => { emit('introDone'); showHint.value = true; })
-    .fromTo(scrollHintRef.value,
+    .fromTo(scrollHintRef.value!,
       { y: 20 }, { y: 0, duration: 0.6, ease: 'power3.out' },
     );
   });
