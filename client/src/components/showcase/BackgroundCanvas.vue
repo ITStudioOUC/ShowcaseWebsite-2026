@@ -25,7 +25,8 @@ function rgba(c: RgbColor, a: number) { return `rgba(${c.r},${c.g},${c.b},${a.to
 // ==================== 星星 ====================
 interface Star { x: number; worldY: number; r: number; baseAlpha: number; twinkleSpeed: number; twinklePhase: number; hue: number; haloR: number; }
 const stars: Star[] = [];
-const STAR_COUNT = 450;
+const isMobile = window.innerWidth < 768;
+const STAR_COUNT = isMobile ? 180 : 450;
 
 function generateStars() {
   stars.length = 0;
@@ -71,10 +72,10 @@ interface AuroraArc {
   opacity: number; speed: number; phaseShift: number;
 }
 const auroraArcs: AuroraArc[] = [
-  { worldY: 140, amp: 12, freq: 0.0007, slantAngle: 0.15, avgH: 170, hVar: 100, density: 6, width: 5, foldCount: 2, foldIntensity: 1.8, cBase: { r: 140, g: 255, b: 180 }, cMid: { r: 70, g: 230, b: 155 }, cTop: { r: 20, g: 190, b: 110 }, opacity: 0.7, speed: 0.006, phaseShift: 0 },
-  { worldY: 340, amp: 35, freq: 0.0016, slantAngle: -0.55, avgH: 220, hVar: 130, density: 5, width: 4.5, foldCount: 3, foldIntensity: 1.5, cBase: { r: 60, g: 240, b: 200 }, cMid: { r: 90, g: 80, b: 230 }, cTop: { r: 30, g: 30, b: 180 }, opacity: 0.55, speed: 0.0045, phaseShift: 2.5 },
-  { worldY: 600, amp: 50, freq: 0.0022, slantAngle: 0.65, avgH: 260, hVar: 160, density: 7, width: 4, foldCount: 4, foldIntensity: 1.3, cBase: { r: 0, g: 220, b: 255 }, cMid: { r: 120, g: 180, b: 255 }, cTop: { r: 40, g: 100, b: 230 }, opacity: 0.6, speed: 0.007, phaseShift: 5.0 },
-  { worldY: 850, amp: 40, freq: 0.0014, slantAngle: -0.50, avgH: 190, hVar: 120, density: 6, width: 4.5, foldCount: 3, foldIntensity: 1.6, cBase: { r: 250, g: 140, b: 210 }, cMid: { r: 160, g: 80, b: 230 }, cTop: { r: 90, g: 40, b: 200 }, opacity: 0.5, speed: 0.005, phaseShift: 1.8 },
+  { worldY: 140, amp: 12, freq: 0.0007, slantAngle: 0.15, avgH: 170, hVar: 100, density: isMobile ? 12 : 6, width: 5, foldCount: 2, foldIntensity: 1.8, cBase: { r: 140, g: 255, b: 180 }, cMid: { r: 70, g: 230, b: 155 }, cTop: { r: 20, g: 190, b: 110 }, opacity: 0.7, speed: 0.006, phaseShift: 0 },
+  { worldY: 340, amp: 35, freq: 0.0016, slantAngle: -0.55, avgH: 220, hVar: 130, density: isMobile ? 10 : 5, width: 4.5, foldCount: 3, foldIntensity: 1.5, cBase: { r: 60, g: 240, b: 200 }, cMid: { r: 90, g: 80, b: 230 }, cTop: { r: 30, g: 30, b: 180 }, opacity: 0.55, speed: 0.0045, phaseShift: 2.5 },
+  { worldY: 600, amp: 50, freq: 0.0022, slantAngle: 0.65, avgH: 260, hVar: 160, density: isMobile ? 14 : 7, width: 4, foldCount: 4, foldIntensity: 1.3, cBase: { r: 0, g: 220, b: 255 }, cMid: { r: 120, g: 180, b: 255 }, cTop: { r: 40, g: 100, b: 230 }, opacity: 0.6, speed: 0.007, phaseShift: 5.0 },
+  { worldY: 850, amp: 40, freq: 0.0014, slantAngle: -0.50, avgH: 190, hVar: 120, density: isMobile ? 12 : 6, width: 4.5, foldCount: 3, foldIntensity: 1.6, cBase: { r: 250, g: 140, b: 210 }, cMid: { r: 160, g: 80, b: 230 }, cTop: { r: 90, g: 40, b: 200 }, opacity: 0.5, speed: 0.005, phaseShift: 1.8 },
 ];
 
 function drawAurora(arc: AuroraArc, offsetY: number) {

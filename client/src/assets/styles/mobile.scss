@@ -5,6 +5,12 @@
 
 @media (max-width: 768px) {
 
+  // ---- 背景性能优化 ----
+  #ribbon-canvas {
+    filter: blur(4px) !important;
+    opacity: 0.8 !important;
+  }
+
   // ---- 全局间距 ----
   section {
     padding: 3rem 1rem !important;

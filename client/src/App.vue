@@ -4,6 +4,9 @@ import Lenis from '@studio-freight/lenis';
 import CustomCursor from '@/components/shared/CustomCursor.vue';
 
 onMounted(() => {
+  // 手机端跳过 Lenis, 使用原生滚动
+  if (window.innerWidth < 768) { (window as any).__lenis = null; return; }
+
   const lenis = new Lenis({
     duration: 2.8,
     easing: (t: number) => Math.min(1, 1 - Math.pow(1 - t, 4)),
