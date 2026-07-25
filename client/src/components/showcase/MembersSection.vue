@@ -6,7 +6,7 @@ import type { Member } from '@/types';
 
 const store = useAppStore();
 const api = useApi();
-const currentYear = ref('2026');
+const currentYear = ref('');
 const currentDept = ref('委员会');
 const depts = ref<string[]>(['委员会', 'FOSS部', '系统维护部', '宣传部', '程序部', 'Web部', '游戏部', 'APP部', 'iOS部', '鸿蒙部']);
 const allYears = ref<string[]>([]);
@@ -36,9 +36,9 @@ onMounted(async () => {
   try {
     const grades = await api.get<{year:string}[]>('/grades');
     allYears.value = grades.map((g: {year:string}) => g.year);
-    if (!allYears.value.length) allYears.value = ['2026'];
-    currentYear.value = allYears.value[0]; // 默认选中第一个年级
-  } catch { allYears.value = ['2026']; currentYear.value = '2026'; }
+    if (!allYears.value.length) allYears.value = [String(new Date().getFullYear())];
+    currentYear.value = allYears.value[0];
+  } catch { const y = String(new Date().getFullYear()); allYears.value = [y]; currentYear.value = y; }
   await store.fetchMembers(currentYear.value, currentDept.value);
 });
 

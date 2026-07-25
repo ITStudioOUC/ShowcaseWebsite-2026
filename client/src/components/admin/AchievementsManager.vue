@@ -8,7 +8,8 @@ import UploadInput from '@/components/shared/UploadInput.vue'; import type { Ach
 const store = useAppStore();
 const api = useApi();
 const showForm = ref(false);
-const form = ref<Partial<Achievement>>({ year: '2026', title: '', desc: '', tags: [], link: '', img: '' });
+const thisYear = String(new Date().getFullYear());
+const form = ref<Partial<Achievement>>({ year: thisYear, title: '', desc: '', tags: [], link: '', img: '' });
 const tagsInput = ref('');
 
 onMounted(() => store.fetchAchievements());
@@ -24,7 +25,7 @@ const grouped = computed(() => {
 });
 
 function createNew() {
-  form.value = { year: '2026', title: '', desc: '', tags: [], link: '', img: '', sort_order: 0 };
+  form.value = { year: thisYear, title: '', desc: '', tags: [], link: '', img: '', sort_order: 0 };
   tagsInput.value = '';
   showForm.value = true;
 }
