@@ -65,7 +65,7 @@ watch([currentYear, currentDept], async ([year, dept]) => {
         <div class="flex bg-white/5 p-1 rounded-xl border border-white/10 font-mono text-xs">
           <button v-for="y in visibleYears" :key="y" @click="selectYear(y)"
                   :class="currentYear === y ? 'bg-brandBlue text-white font-bold' : 'text-gray-400 hover:text-white'"
-                  class="px-3.5 py-1.5 rounded-lg transition">{{ y }} 级</button>
+                  class="px-3.5 py-1.5 rounded-lg transition">{{ y }}</button>
         </div>
         <button @click="nextYears" :disabled="!canNext"
                 class="w-7 h-7 rounded-lg flex items-center justify-center text-xs transition"
