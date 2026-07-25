@@ -21,6 +21,15 @@ body {
   overflow-x: hidden;
   cursor: none;
 }
+
+// 修复暗色主题下 select dropdown 白底白字问题
+select {
+  color-scheme: dark !important;
+  &, option {
+    color: #e5e7eb !important;
+    background-color: #1f2937 !important;
+  }
+}
 *, *::before, *::after, a, button, input, select, textarea, [data-tilt], .bento-card { cursor: none !important; }
 
 // ========== 运动色彩条带 Canvas ==========
