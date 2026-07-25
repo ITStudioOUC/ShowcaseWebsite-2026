@@ -2,6 +2,7 @@
 import { useAppStore } from '@/stores/app';
 
 const store = useAppStore();
+const go = (url: string) => window.open(url, '_blank');
 </script>
 
 <template>
@@ -25,7 +26,7 @@ const store = useAppStore();
                         mentor.title.includes('技术') ? '3px 3px 18px rgba(136,225,250,0.45), 0 0 30px rgba(136,225,250,0.15)' :
                         '3px 3px 18px rgba(125,211,252,0.45), 0 0 30px rgba(125,211,252,0.15)',
            }"
-           @click="mentor.link && win.open(mentor.link, '_blank')"
+           @click="mentor.link && go(mentor.link)"
       >
         <img :src="mentor.avatar" class="w-18 h-24 rounded object-cover flex-shrink-0" style="width:88px;height:118px" />
         <div class="flex-1 min-w-0">
