@@ -1,0 +1,121 @@
+// ========================================
+//  手机端响应式 (max-width: 768px)
+//  所有移动端覆盖规则在此
+// ========================================
+
+@media (max-width: 768px) {
+
+  // ---- 全局间距 ----
+  section {
+    padding: 3rem 1rem !important;
+  }
+  h2 { font-size: 1.75rem !important; line-height: 2.25rem !important; }
+  [class*="tracking-"] { letter-spacing: 0.15em !important; }
+
+  // ---- 自定义光标: 隐藏DOM元素 + 恢复系统光标 ----
+  body, *, a, button, input, select, textarea { cursor: auto !important; }
+  // 隐藏 CustomCursor 组件渲染的 fixed 元素
+  div[class*="fixed"][class*="pointer-events-none"][class*="z-9999"],
+  div[class*="fixed"][class*="pointer-events-none"][style*="z-index: 9999"],
+  div[class*="fixed"][class*="pointer-events-none"][style*="z-index: 9998"] {
+    display: none !important;
+  }
+
+  // ---- 左侧导航 → 底部横排 ----
+  nav[class*="fixed"][class*="z-40"] {
+    left: auto !important; right: 0.75rem !important;
+    top: auto !important; bottom: 1.5rem !important;
+    transform: none !important;
+    flex-direction: row !important; gap: 2px !important;
+    padding: 4px 10px !important; border-radius: 16px !important;
+    background: rgba(3, 7, 18, 0.7); backdrop-filter: blur(8px);
+    > div { flex-direction: row !important; height: auto !important; width: auto !important; }
+    .w-px { display: none !important; }
+    button { position: static !important; padding: 3px !important; }
+    button span[class*="absolute"] { display: none !important; }
+  }
+
+  // ---- StatusBar ----
+  header[class*="sticky"] > div { padding: 0.2rem 0.4rem !important; font-size: 0.48rem !important; }
+  header[class*="sticky"] a { gap: 0.15rem !important; font-size: 0.45rem !important; }
+  header[class*="sticky"] svg { width: 0.6rem !important; height: 0.6rem !important; }
+  header[class*="sticky"] .gap-5 { gap: 0.4rem !important; }
+  // 恢复快速链接可见 (StatusBar 右侧链接行)
+  header[class*="sticky"] [class*="hidden"] { display: flex !important; flex-wrap: wrap !important; gap: 0.4rem !important; }
+
+  // ---- Hero ----
+  section[class*="min-h-screen"] > div[class*="flex"][class*="justify-center"] {
+    flex-direction: column !important; gap: 1.5rem !important;
+  }
+  img[alt="IT Studio"] { width: 14vh !important; height: 14vh !important; max-width: 100px !important; max-height: 100px !important; }
+  img[alt="爱特工作室"] { height: 22vh !important; }
+
+  // ---- About ----
+  #about [class*="grid"][class*="lg:grid-cols-12"] { grid-template-columns: 1fr !important; gap: 1.5rem !important; }
+  #about [class*="absolute"][class*="-top-12"] { position: relative !important; top: 0 !important; margin-bottom: 1rem !important; }
+  #about [class*="pt-16"] { padding-top: 0.5rem !important; }
+  #about p { font-size: 0.85rem !important; }
+  // 统计数据 4 列并排
+  #about [class*="grid-cols-2"] { grid-template-columns: repeat(4, 1fr) !important; gap: 0.5rem !important; }
+  #about [class*="text-3xl"] { font-size: 1.1rem !important; }
+  #about [class*="text-xs"][class*="text-gray-400"] { font-size: 0.55rem !important; }
+
+  // ---- Mentors ----
+  #mentors [class*="grid"] { grid-template-columns: 1fr !important; }
+
+  // ---- Members ----
+  #members [class*="p-7"] { padding: 0.75rem !important; }
+  #members [class*="pb-8"] { padding-bottom: 1rem !important; }
+  #members [class*="w-28"][class*="h-28"] { width: 5rem !important; height: 5rem !important; }
+  #members h2 ~ div span[class*="text-lg"] { font-size: 0.85rem !important; }
+  #members h2 ~ div span[class*="text-base"] { font-size: 0.7rem !important; }
+  #members h2 ~ div span[class*="text-sm"][class*="italic"] { font-size: 0.65rem !important; }
+
+  // ---- Achievements ----
+  #achievements [class*="ml-12"], #achievements [class*="ml-20"] { margin-left: 2rem !important; }
+  #achievements .grid { grid-template-columns: 1fr !important; }
+
+  // ---- Vibes ----
+  #vibes .masonry { columns: 2 !important; column-gap: 6px !important; }
+  #vibes .masonry-item { margin-bottom: 6px !important; }
+
+  // ---- FAQ ----
+  #qa [class*="grid"] { grid-template-columns: 1fr !important; }
+
+  // ---- Footer ----
+  footer {
+    padding: 2.5rem 1rem 2rem !important;
+    overflow: visible !important;
+    // 顶部校徽+艺术字logo 缩小, 且不要溢出遮挡内容
+    > div[class*="absolute"][class*="-translate-y-full"] {
+      gap: 0.25rem !important; right: 0.3rem !important;
+      img { height: 1.8rem !important; }
+    }
+    // 主内容区 grid (精准匹配)
+    > div[class*="max-w-7xl"][class*="grid"] {
+      grid-template-columns: 1fr !important; gap: 1rem !important;
+      margin-bottom: 1.25rem !important;
+    }
+    // 二维码 — 居中 + 合适大小
+    [class*="w-28"][class*="h-28"] { width: 5.5rem !important; height: 5.5rem !important; }
+    // 二维码行居中
+    .flex.gap-4 { justify-content: center !important; }
+    // 扫码加入我们 标题居中
+    h4:has(+ .flex.gap-4) { text-align: center !important; }
+    // 版权/备案号
+    > div[class*="text-center"] {
+      font-size: 9px !important; margin: 0.25rem 0 !important;
+      max-width: 100% !important; overflow: visible !important;
+    }
+    // 横线
+    > div[class*="border-t"] { margin: 0.25rem 0 !important; }
+    // 彩蛋
+    > div[class*="absolute"][class*="right-0"][class*="bottom-0"] {
+      img { width: 2.5rem !important; }
+      p { font-size: 7px !important; }
+    }
+  }
+
+  // ---- 卡片 ----
+  .bento-card { border-radius: 12px !important; }
+}

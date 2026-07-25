@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 // ========== 全局样式 ==========
+@import './mobile.scss';
 // 隐藏原生滚动条
 ::-webkit-scrollbar { display: none; }
 html { -ms-overflow-style: none; scrollbar-width: none; scroll-behavior: auto; }
