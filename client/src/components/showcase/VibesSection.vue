@@ -68,14 +68,14 @@ const lightbox = ref<{ img: VibeImage } | null>(null);
 
     <!-- 灯箱 -->
     <Teleport to="body">
-      <div v-if="lightbox" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center p-8"
+      <div v-if="lightbox" class="fixed inset-0 z-[9000] flex flex-col items-center justify-center p-8"
            style="background: rgba(3,7,18,0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);"
            @click="lightbox = null">
         <img :src="lightbox.img.url" :alt="lightbox.img.title"
              class="max-w-[85vw] max-h-[75vh] object-contain rounded-xl shadow-2xl border border-white/10"
              @click.stop />
         <p class="mt-5 text-lg font-bold text-white">{{ lightbox.img.title }}</p>
-        <p class="text-xs text-gray-400 mt-1.5">点击任意处关闭</p>
+        <p class="text-xs text-gray-400 mt-1.5">点击任意空白处关闭</p>
       </div>
     </Teleport>
   </section>
