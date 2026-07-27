@@ -51,11 +51,14 @@ export const useAppStore = defineStore('app', () => {
     }
   }
 
+  const FALLBACK_DEPTS = ['委员会', 'FOSS部', '系统维护部', '宣传部', '程序部', 'Web部', '游戏部', 'APP部', 'iOS部', '鸿蒙部'];
+
   async function fetchDepts() {
     try {
       depts.value = await api.get<string[]>('/depts');
     } catch (e) {
-      console.error('获取部门列表失败:', e);
+      console.error('获取部门列表失败，使用默认列表:', e);
+      depts.value = FALLBACK_DEPTS;
     }
   }
 
