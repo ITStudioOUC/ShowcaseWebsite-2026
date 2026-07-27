@@ -5,7 +5,15 @@ const router = Router();
 
 // GET /api/depts — 返回有成员的所有部门
 router.get('/', (_req: Request, res: Response) => {
-  const list = db.prepare('SELECT DISTINCT dept FROM members ORDER BY dept').all() as { dept: string }[];
+  const list = db.prepare(`
+    SELECT DISTINCT dept FROM members
+    ORDER BY CASE dept
+      WHEN '委员会' THEN 1
+      WHEN '系统维护部' THEN 2
+      WHEN 'FOSS部' THEN 3
+      ELSE 4
+    END, dept
+  `).all() as { dept: string }[];
   res.json(list.map((r: { dept: string }) => r.dept));
 });
 

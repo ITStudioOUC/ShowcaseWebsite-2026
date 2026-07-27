@@ -51,7 +51,7 @@ export const useAppStore = defineStore('app', () => {
     }
   }
 
-  const FALLBACK_DEPTS = ['委员会', 'FOSS部', '系统维护部', '宣传部', '程序部', 'Web部', '游戏部', 'APP部', 'iOS部', '鸿蒙部'];
+  const FALLBACK_DEPTS = ['委员会', '系统维护部', 'FOSS部', '宣传部', '程序部', 'Web部', '游戏部', 'APP部', 'iOS部', '鸿蒙部'];
 
   async function fetchDepts() {
     try {
