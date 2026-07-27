@@ -17,6 +17,7 @@ export const useAppStore = defineStore('app', () => {
   });
 
   const members = ref<Member[]>([]);
+  const depts = ref<string[]>([]);
   const achievements = ref<Achievement[]>([]);
   const faqs = ref<Faq[]>([]);
   const orgLeaders = ref<OrgLeader[]>([]);
@@ -47,6 +48,14 @@ export const useAppStore = defineStore('app', () => {
       console.error('获取成员列表失败:', e);
     } finally {
       loading.value = false;
+    }
+  }
+
+  async function fetchDepts() {
+    try {
+      depts.value = await api.get<string[]>('/depts');
+    } catch (e) {
+      console.error('获取部门列表失败:', e);
     }
   }
 
@@ -101,8 +110,8 @@ export const useAppStore = defineStore('app', () => {
   }
 
   return {
-    stats, members, achievements, faqs, orgLeaders, mentors, vibeImages, loading,
-    fetchStats, fetchMembers, fetchAchievements, fetchFaqs, fetchVibeImages,
+    stats, members, depts, achievements, faqs, orgLeaders, mentors, vibeImages, loading,
+    fetchStats, fetchMembers, fetchDepts, fetchAchievements, fetchFaqs, fetchVibeImages,
     fetchOrgLeaders, fetchMentors, fetchAllData,
   };
 });

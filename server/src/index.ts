@@ -16,6 +16,7 @@ import mentorRoutes from './routes/mentors.js';
 import gradeRoutes from './routes/grades.js';
 import vibeImageRoutes from './routes/vibeImages.js';
 import friendLinkRoutes from './routes/friendLinks.js';
+import deptRoutes from './routes/depts.js';
 import footerContactRoutes from './routes/footerContacts.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -49,6 +50,7 @@ app.use('/api/mentors', mentorRoutes);
 app.use('/api/grades', gradeRoutes);
 app.use('/api/vibe-images', vibeImageRoutes);
 app.use('/api/friend-links', friendLinkRoutes);
+app.use('/api/depts', deptRoutes);
 app.use('/api/footer-contacts', footerContactRoutes);
 
 // SPA fallback: 所有非 API 请求返回 index.html

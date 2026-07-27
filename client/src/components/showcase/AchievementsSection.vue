@@ -6,9 +6,9 @@ import type { Achievement } from '@/types';
 const store = useAppStore();
 
 const lightbox = ref<Achievement | null>(null);
+const visibleYears = ref(2);
 
 // 按年份分组并排序(年份降序)
-
 const groupedByYear = computed(() => {
   const map: Record<string, Achievement[]> = {};
   for (const a of store.achievements) {
@@ -17,6 +17,13 @@ const groupedByYear = computed(() => {
   }
   return Object.entries(map).sort((a, b) => Number(b[0]) - Number(a[0]));
 });
+
+const visibleGrouped = computed(() => groupedByYear.value.slice(0, visibleYears.value));
+const hasMore = computed(() => visibleYears.value < groupedByYear.value.length);
+
+function loadMore() {
+  visibleYears.value = Math.min(visibleYears.value + 2, groupedByYear.value.length);
+}
 </script>
 
 <template>
@@ -32,7 +39,7 @@ const groupedByYear = computed(() => {
       <div class="absolute left-4 lg:left-6 top-0 bottom-0 w-px bg-gradient-to-b from-brandCyan/40 via-brandBlue/30 to-brandCyan/10" />
 
       <div class="space-y-20">
-        <div v-for="[year, items] in groupedByYear" :key="year" class="relative">
+        <div v-for="[year, items] in visibleGrouped" :key="year" class="relative">
           <!-- 年份节点 -->
           <div class="flex items-center gap-4 lg:gap-8 mb-8">
             <!-- 节点圆 -->
@@ -74,6 +81,16 @@ const groupedByYear = computed(() => {
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- 展开更多 -->
+    <div v-if="hasMore" class="flex justify-center mt-14">
+      <button @click="loadMore"
+              class="group inline-flex items-center gap-3 px-8 py-3.5 rounded-xl bg-white/[0.04] border border-white/[0.08] hover:border-brandCyan/30 text-sm font-mono text-gray-400 hover:text-brandCyan transition-all">
+        <span>展开更多成果</span>
+        <span class="text-brandCyan/60 text-xs">(剩余 {{ groupedByYear.length - visibleYears }} 年)</span>
+        <svg class="w-4 h-4 group-hover:translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+      </button>
     </div>
 
     <!-- 详情灯箱 -->

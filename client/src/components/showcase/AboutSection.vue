@@ -27,7 +27,7 @@ const stats = [
           <p>
             社团承载
             <span class="font-bold bg-gradient-to-r from-brandCyan to-brandSky bg-clip-text text-transparent">CCF 中国海洋大学学生分会</span>、
-            <span class="font-bold bg-gradient-to-r from-brandPurple to-brandCyan bg-clip-text text-transparent">海大 OpenHarmony 开源鸿蒙开发者协会</span>
+            <span class="font-bold bg-gradient-to-r from-amber-300 to-orange-400 bg-clip-text text-transparent">海大 OpenHarmony 开源鸿蒙开发者协会</span>
             两大官方组织。综合资源、硬件设施、竞赛成果稳居全校社团
             <span class="text-white font-bold border-b-2 border-brandCyan/50">顶尖梯队</span>。
           </p>

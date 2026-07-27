@@ -7,28 +7,40 @@ import type { Member } from '@/types';
 const store = useAppStore();
 const api = useApi();
 const currentYear = ref('');
-const currentDept = ref('委员会');
-const depts = ref<string[]>(['委员会', 'FOSS部', '系统维护部', '宣传部', '程序部', 'Web部', '游戏部', 'APP部', 'iOS部', '鸿蒙部']);
+const currentDept = ref('');
 const allYears = ref<string[]>([]);
 const yearOffset = ref(0);
 const deptOffset = ref(0);
 const YEARS_PER_PAGE = 3;
-const DEPTS_PER_PAGE = 4;
+const DEPTS_PER_PAGE = 5;
+
+const depts = computed(() => store.depts);
 
 const visibleYears = computed(() => allYears.value.slice(yearOffset.value, yearOffset.value + YEARS_PER_PAGE));
 const visibleDepts = computed(() => depts.value.slice(deptOffset.value, deptOffset.value + DEPTS_PER_PAGE));
-const canPrev = computed(() => yearOffset.value > 0);
-const canNext = computed(() => yearOffset.value + YEARS_PER_PAGE < allYears.value.length);
+const canYearPrev = computed(() => yearOffset.value > 0);
+const canYearNext = computed(() => yearOffset.value + YEARS_PER_PAGE < allYears.value.length);
+const canDeptPrev = computed(() => deptOffset.value > 0);
+const canDeptNext = computed(() => deptOffset.value + DEPTS_PER_PAGE < depts.value.length);
 
-function prevYears() { if (canPrev.value) yearOffset.value--; }
-function nextYears() { if (canNext.value) yearOffset.value++; }
+function prevYears() { if (canYearPrev.value) yearOffset.value--; }
+function nextYears() { if (canYearNext.value) yearOffset.value++; }
+function prevDepts() { if (canDeptPrev.value) deptOffset.value--; }
+function nextDepts() { if (canDeptNext.value) deptOffset.value++; }
 
 function selectYear(y: string) {
   currentYear.value = y;
-  // 确保选中的年份可见
   const idx = allYears.value.indexOf(y);
   if (idx >= 0 && (idx < yearOffset.value || idx >= yearOffset.value + YEARS_PER_PAGE)) {
     yearOffset.value = Math.max(0, Math.min(idx, allYears.value.length - YEARS_PER_PAGE));
+  }
+}
+
+function selectDept(d: string) {
+  currentDept.value = d;
+  const idx = depts.value.indexOf(d);
+  if (idx >= 0 && (idx < deptOffset.value || idx >= deptOffset.value + DEPTS_PER_PAGE)) {
+    deptOffset.value = Math.max(0, Math.min(idx, depts.value.length - DEPTS_PER_PAGE));
   }
 }
 
@@ -39,10 +51,13 @@ onMounted(async () => {
     if (!allYears.value.length) allYears.value = [String(new Date().getFullYear())];
     currentYear.value = allYears.value[0];
   } catch { const y = String(new Date().getFullYear()); allYears.value = [y]; currentYear.value = y; }
+  await store.fetchDepts();
+  if (store.depts.length > 0) currentDept.value = store.depts[0];
   await store.fetchMembers(currentYear.value, currentDept.value);
 });
 
 watch([currentYear, currentDept], async ([year, dept]) => {
+  if (!year || !dept) return;
   await store.fetchMembers(year, dept);
 });
 </script>
@@ -57,9 +72,9 @@ watch([currentYear, currentDept], async ([year, dept]) => {
     <div class="flex flex-wrap items-center justify-between gap-4 mb-10">
       <!-- 年级选择器 (左) -->
       <div class="flex items-center gap-1">
-        <button @click="prevYears" :disabled="!canPrev"
+        <button @click="prevYears" :disabled="!canYearPrev"
                 class="w-7 h-7 rounded-lg flex items-center justify-center text-xs transition"
-                :class="canPrev ? 'text-brandCyan hover:bg-white/5' : 'text-gray-700 cursor-not-allowed'">
+                :class="canYearPrev ? 'text-brandCyan hover:bg-white/5' : 'text-gray-700 cursor-not-allowed'">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
         </button>
         <div class="flex bg-white/5 p-1 rounded-xl border border-white/10 font-mono text-xs">
@@ -67,28 +82,28 @@ watch([currentYear, currentDept], async ([year, dept]) => {
                   :class="currentYear === y ? 'bg-brandBlue text-white font-bold' : 'text-gray-400 hover:text-white'"
                   class="px-3.5 py-1.5 rounded-lg transition">{{ y }}</button>
         </div>
-        <button @click="nextYears" :disabled="!canNext"
+        <button @click="nextYears" :disabled="!canYearNext"
                 class="w-7 h-7 rounded-lg flex items-center justify-center text-xs transition"
-                :class="canNext ? 'text-brandCyan hover:bg-white/5' : 'text-gray-700 cursor-not-allowed'">
+                :class="canYearNext ? 'text-brandCyan hover:bg-white/5' : 'text-gray-700 cursor-not-allowed'">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>
       </div>
 
-      <!-- 部门选择器 (右, 一次4个) -->
+      <!-- 部门选择器 (右, 一次5个) -->
       <div class="flex items-center gap-1">
-        <button @click="deptOffset = Math.max(0, deptOffset - 1)" :disabled="deptOffset === 0"
+        <button @click="prevDepts" :disabled="!canDeptPrev"
                 class="w-7 h-7 rounded-lg flex items-center justify-center text-xs transition"
-                :class="deptOffset > 0 ? 'text-brandPurple hover:bg-white/5' : 'text-gray-700 cursor-not-allowed'">
+                :class="canDeptPrev ? 'text-brandEmerald hover:bg-white/5' : 'text-gray-700 cursor-not-allowed'">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
         </button>
         <div class="flex bg-white/5 p-1 rounded-xl border border-white/10 font-mono text-xs">
-          <button v-for="d in visibleDepts" :key="d" @click="currentDept = d"
-                  :class="currentDept === d ? 'bg-brandPurple text-white font-bold' : 'text-gray-400 hover:text-white'"
+          <button v-for="d in visibleDepts" :key="d" @click="selectDept(d)"
+                  :class="currentDept === d ? 'bg-brandEmerald text-white font-bold' : 'text-gray-400 hover:text-white'"
                   class="px-3 py-1.5 rounded-lg transition whitespace-nowrap">{{ d }}</button>
         </div>
-        <button @click="deptOffset = Math.min(depts.length - 4, deptOffset + 1)" :disabled="deptOffset >= depts.length - 4"
+        <button @click="nextDepts" :disabled="!canDeptNext"
                 class="w-7 h-7 rounded-lg flex items-center justify-center text-xs transition"
-                :class="deptOffset < depts.length - 4 ? 'text-brandPurple hover:bg-white/5' : 'text-gray-700 cursor-not-allowed'">
+                :class="canDeptNext ? 'text-brandEmerald hover:bg-white/5' : 'text-gray-700 cursor-not-allowed'">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>
       </div>
