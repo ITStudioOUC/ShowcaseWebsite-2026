@@ -56,9 +56,19 @@ onMounted(async () => {
   await store.fetchMembers(currentYear.value, currentDept.value);
 });
 
-watch([currentYear, currentDept], async ([year, dept]) => {
-  if (!year || !dept) return;
-  await store.fetchMembers(year, dept);
+watch(currentYear, async (year) => {
+  if (!year) return;
+  await store.fetchDepts(year);
+  // 如果当前部门在新年份没成员, 切到第一个有成员的部门
+  if (!store.depts.includes(currentDept.value)) {
+    currentDept.value = store.depts[0] || '';
+  }
+  if (currentDept.value) await store.fetchMembers(year, currentDept.value);
+});
+
+watch(currentDept, async (dept) => {
+  if (!currentYear.value || !dept) return;
+  await store.fetchMembers(currentYear.value, dept);
 });
 </script>
 
