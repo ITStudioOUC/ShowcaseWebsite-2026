@@ -90,7 +90,7 @@ onUnmounted(() => {
               src="@/assets/itword.svg"
               alt="爱特工作室"
               class="w-auto"
-              style="height: 70vh;"
+              style="height: 60vh;"
             />
           </div>
         </div>
