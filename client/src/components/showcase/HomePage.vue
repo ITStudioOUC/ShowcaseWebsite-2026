@@ -2,7 +2,6 @@
 import { ref, onMounted, nextTick } from 'vue';
 import gsap from 'gsap';
 import BackgroundCanvas from '@/components/showcase/BackgroundCanvas.vue';
-import GridOverlay from '@/components/showcase/GridOverlay.vue';
 import StatusBar from '@/components/showcase/StatusBar.vue';
 import NavBar from '@/components/showcase/NavBar.vue';
 import HeroSection from '@/components/showcase/HeroSection.vue';
@@ -37,8 +36,6 @@ async function onIntroDone() {
 <template>
   <div class="relative">
     <BackgroundCanvas />
-    <GridOverlay />
-
     <!-- 顶部状态栏 (初始隐藏) -->
     <div style="opacity:0" class="header-item sticky top-0 z-50">
       <StatusBar />
