@@ -76,8 +76,8 @@
   #vibes .masonry { columns: 2 !important; column-gap: 6px !important; }
   #vibes .masonry-item { margin-bottom: 6px !important; }
 
-  // ---- FAQ ----
-  #qa [class*="grid"] { grid-template-columns: 1fr !important; }
+  // ---- FAQ (样式在 FaqSection.vue 内已做移动端适配) ----
+  #qa { padding-bottom: 5rem !important; }
 
   // ---- Footer ----
   footer {
